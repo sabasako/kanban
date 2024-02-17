@@ -1,4 +1,3 @@
-import AddButton from "./AddTask";
 import NewBoard from "./NewBoard";
 
 type EmptyButtonProps = {
