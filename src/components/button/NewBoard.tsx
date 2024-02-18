@@ -43,7 +43,7 @@ export default function NewBoard({
           <button onClick={handleClose}>close</button>
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button onClick={close}>close</button>
+          <button onClick={handleClose}>close</button>
         </form>
       </dialog>
     </>

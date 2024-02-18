@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-c-light-grey">
       <body className={`${jakartaSans.className}`}>
         <DataContextProvider>
           <SidebarContextProvider>
