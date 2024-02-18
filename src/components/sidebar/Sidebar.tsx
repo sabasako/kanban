@@ -4,10 +4,11 @@ import BoardButton from "./BoardButton";
 import DarkThemeToggle from "./DarkThemeToggle";
 import Logo from "../svgs/Logo";
 import NewBoard from "../button/NewBoard";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import ShowSidebarSvg from "../svgs/ShowSidebarSvg";
 import { SidebarContext } from "@/store/sidebar-context";
 import { DataContext } from "@/store/data-context";
+import Skeleton from "@/fallbacks/Skeleton";
 
 export default function Sidebar() {
   const { isSidebarOpen, handleSidebarClose, handleSidebarOpen } =
@@ -34,11 +35,13 @@ export default function Sidebar() {
         <h2 className="py-6 pl-8 font-semibold tracking-widest text-md text-c-medium-grey">
           All Boards ({todoData.length})
         </h2>
-        <ul>
-          {todoData.map((board) => (
-            <BoardButton link={board.id} text={board.name} key={board.id} />
-          ))}
-        </ul>
+        <Suspense fallback={<Skeleton />}>
+          <ul>
+            {todoData.map((board) => (
+              <BoardButton link={board.id} text={board.name} key={board.id} />
+            ))}
+          </ul>
+        </Suspense>
         <NewBoard isOnSidebar={true} />
         <DarkThemeToggle onSidebar={handleSidebarOpen} />
       </div>
