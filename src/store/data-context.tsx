@@ -14,7 +14,7 @@ export default function DataContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [todoData, setTodoData] = useState(dataWithIds);
+  const [todoData] = useState(dataWithIds);
 
   const dataValue = todoData;
 
