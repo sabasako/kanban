@@ -2,20 +2,21 @@
 
 import { useRef } from "react";
 import BoardSvg from "../svgs/BoardSvg";
+import AddBoardForm from "../board/AddBoardForm";
 
 export default function NewBoard({
   isOnSidebar = false,
 }: {
   isOnSidebar?: boolean;
 }) {
-  const diaologRef = useRef<HTMLDialogElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   function handleOpen() {
-    diaologRef.current?.showModal();
+    dialogRef.current?.showModal();
   }
 
   function handleClose() {
-    diaologRef.current?.close();
+    dialogRef.current?.close();
   }
 
   return (
@@ -36,16 +37,7 @@ export default function NewBoard({
         )}
         + Create New Board
       </button>
-      <dialog ref={diaologRef} id="my_modal_2" className="modal">
-        <div className="modal-box">
-          <h3 className="text-lg font-bold">Hello!</h3>
-          <p className="py-4">Press ESC key or click outside to close</p>
-          <button onClick={handleClose}>close</button>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button onClick={handleClose}>close</button>
-        </form>
-      </dialog>
+      <AddBoardForm dialogRef={dialogRef} handleClose={handleClose} />
     </>
   );
 }

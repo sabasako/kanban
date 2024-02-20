@@ -48,6 +48,7 @@ export default function DarkThemeToggle({
         <label className="flex items-center justify-center p-6 px-12 cursor-pointer rounded-xl dark:bg-c-very-dark-grey bg-c-light-grey gap-7 sm:px-8 sm:p-4">
           <Light />
           <input
+            id="themeToggle"
             onChange={handleDarkTheme}
             type="checkbox"
             checked={theme === "dark"}

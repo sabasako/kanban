@@ -23,7 +23,7 @@ const config: Config = {
         "c-white": "#fff",
 
         "c-main-purple": "#635FC7",
-        "c-main-purple-hover": "#A8A4FF",
+        "c-main-purple-hover": "#766fff",
 
         "c-main-red": "#EA5555",
         "c-main-red-hover": "#FF9898",

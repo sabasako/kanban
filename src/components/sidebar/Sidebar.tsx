@@ -14,7 +14,7 @@ export default function Sidebar() {
   const { isSidebarOpen, handleSidebarClose, handleSidebarOpen } =
     useContext(SidebarContext);
 
-  const todoData = useContext(DataContext);
+  const { todoData } = useContext(DataContext);
 
   return (
     <>

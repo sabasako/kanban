@@ -5,6 +5,7 @@ export type DataType = {
 };
 
 export type ColumnType = {
+  id: string;
   name: string;
   tasks: TaskType[];
 };

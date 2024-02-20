@@ -23,7 +23,7 @@ export default function Column({
   return (
     <div className="w-72 flex-shrink-0">
       <h2 className="text-c-medium-grey text-base tracking-[0.2em] flex gap-2 items-center">
-        <div className={`size-4 rounded-full ${colors[index]}`}></div>
+        <div className={`size-4 rounded-full ${colors[index] || 0}`}></div>
         <span>
           {column.name} ({column.tasks.length})
         </span>
