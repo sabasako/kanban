@@ -27,18 +27,20 @@ export default function Dropdown({
   return (
     <div
       onClick={handleDropdown}
-      className="relative w-full h-11 px-4 py-2 border rounded-sm text-c-white bg-c-dark-grey border-[#828fa362] transition duration-300 hover:border-c-main-purple flex justify-between items-center cursor-pointer"
+      className="relative w-full h-11 px-4 py-2 border rounded-sm text-c-black dark:text-c-white bg-c-white dark:bg-c-dark-grey border-[#828fa362] transition duration-300 hover:border-c-main-purple flex justify-between items-center cursor-pointer"
     >
       <p>{placeholder}</p>
       <DownArrow isSidebarOpen={isOpen} />
       {isOpen && (
-        <div className="absolute left-0 right-0 overflow-auto translate-y-4 rounded-b shadow-2xl max-h-40 top-full bg-c-dark-grey">
+        <div className="absolute left-0 right-0 overflow-auto translate-y-4 rounded-b shadow-2xl max-h-40 top-full bg-c-white dark:bg-c-dark-grey ">
           <ul className="text-sm">
             {data.map((col, i) => (
               <li
                 key={col + i}
-                className={`px-3 py-2 hover:bg-c-main-purple  ${
-                  placeholder === col ? "bg-c-main-purple " : ""
+                className={`px-3 py-2 mb-1 hover:bg-c-main-purple hover:text-c-white ${
+                  placeholder === col
+                    ? "bg-c-main-purple text-c-white dark:text-c-black"
+                    : ""
                 }`}
                 onClick={() => handleSelect(col)}
               >

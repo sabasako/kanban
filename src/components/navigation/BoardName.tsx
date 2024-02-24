@@ -1,20 +1,13 @@
 "use client";
 
-import { DataContext } from "@/store/data-context";
-import { useSearchParams } from "next/navigation";
-import { useContext } from "react";
+import useCurrentBoard from "@/hooks/useCurrentBoard";
 
 export default function BoardName({
   shouldBeHiddenForSmallScreens,
 }: {
   shouldBeHiddenForSmallScreens: boolean;
 }) {
-  const { todoData } = useContext(DataContext);
-  const searchParams = useSearchParams();
-
-  const currentBoard = todoData.find(
-    (board) => board.id === searchParams.get("id")
-  );
+  const [currentBoard] = useCurrentBoard();
 
   if (currentBoard === undefined) {
     return <span>Board wasn&apos;t found</span>;

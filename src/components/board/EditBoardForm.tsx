@@ -1,6 +1,6 @@
 import { DataContext } from "@/store/data-context";
-import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { DataType } from "@/types/data";
+import { useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const MAX_BOARDNAME_LENGTH = 30;
@@ -9,19 +9,24 @@ const MAX_COLUMNNAME_LENGTH = 25;
 type AddBoardFormProps = {
   dialogRef: React.RefObject<HTMLDialogElement>;
   handleClose: () => void;
+  currentBoard: DataType;
 };
 
-export default function AddBoardForm({
+export default function EditBoardForm({
   dialogRef,
   handleClose,
+  currentBoard,
 }: AddBoardFormProps) {
-  const { addBoard } = useContext(DataContext);
-  const router = useRouter();
+  const { editBoard } = useContext(DataContext);
 
-  const boardId = uuidv4();
+  const [boardName, setBoardName] = useState(currentBoard.name);
+  const [columns, setColumns] = useState(currentBoard.columns);
 
-  const [boardName, setBoardName] = useState("");
-  const [columns, setColumns] = useState([{ value: "", id: "" }]);
+  // updates initial value for boardName and columns, without this useEffect, the form will not update the initial value when board changes
+  useEffect(() => {
+    setBoardName(currentBoard.name);
+    setColumns(currentBoard.columns);
+  }, [currentBoard]);
 
   // handles the form submission
   function handleSubmit(e: React.FormEvent) {
@@ -29,24 +34,21 @@ export default function AddBoardForm({
 
     // checks if the board name and column titles are valid
     if (boardName.length > MAX_BOARDNAME_LENGTH) return;
-    if (columns.some((col) => col.value.length > MAX_COLUMNNAME_LENGTH)) return;
+    if (columns.some((col) => col.name.length > MAX_COLUMNNAME_LENGTH)) return;
 
-    // submits form based on if user is editing or adding new board
-    addBoard(boardName, columns, boardId);
-    router.push(`/boards?${new URLSearchParams({ id: boardId })}`);
+    // submits edited form
+    editBoard(currentBoard, boardName, columns);
 
     // resets the form
-    setBoardName("");
-    setColumns([{ value: "", id: "" }]);
     handleClose();
   }
 
   // updates the columns title
-  function handleNewColumnChange(id: string, value: string) {
+  function handleNewColumnChange(id: string, name: string) {
     setColumns((prev) =>
       prev.map((col) => {
         if (col.id === id) {
-          return { ...col, value };
+          return { ...col, name };
         }
         return col;
       })
@@ -55,7 +57,7 @@ export default function AddBoardForm({
 
   // adds new column to the board
   function handleNewColumn() {
-    setColumns((prev) => [...prev, { id: uuidv4(), value: "" }]);
+    setColumns((prev) => [...prev, { id: uuidv4(), name: "", tasks: [] }]);
   }
 
   // deletes the column
@@ -86,12 +88,12 @@ export default function AddBoardForm({
           </svg>
         </button>
         <h3 className="mb-6 text-lg font-bold text-c-black dark:text-c-white">
-          Add New Board
+          Edit Board
         </h3>
         <form action="" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <label
-              className="text-c-medium-grey dark:text-c-white font-bold"
+              className="font-bold text-c-medium-grey dark:text-c-white"
               htmlFor="boardName"
             >
               Board Name
@@ -107,7 +109,7 @@ export default function AddBoardForm({
               placeholder="e.g. Web Design"
             />
             {boardName.length > MAX_BOARDNAME_LENGTH && (
-              <p className="text-c-main-red text-sm">
+              <p className="text-sm text-c-main-red">
                 Board name should be less than {MAX_BOARDNAME_LENGTH} characters
               </p>
             )}
@@ -115,7 +117,7 @@ export default function AddBoardForm({
 
           <div className="flex flex-col gap-2 mt-6">
             <label
-              className="text-c-medium-grey dark:text-c-white font-bold"
+              className="font-bold text-c-medium-grey dark:text-c-white"
               htmlFor="columnTitle"
             >
               Board Columns
@@ -126,7 +128,7 @@ export default function AddBoardForm({
                 <div className="flex items-center gap-2">
                   <input
                     required
-                    value={col.value}
+                    value={col.name}
                     onChange={(e) =>
                       handleNewColumnChange(col.id, e.target.value)
                     }
@@ -155,8 +157,8 @@ export default function AddBoardForm({
                     </svg>
                   </button>
                 </div>
-                {col.value.length > MAX_COLUMNNAME_LENGTH && (
-                  <p className="text-c-main-red text-sm mt-1">
+                {col.name.length > MAX_COLUMNNAME_LENGTH && (
+                  <p className="mt-1 text-sm text-c-main-red">
                     Column title should be less than {MAX_COLUMNNAME_LENGTH}{" "}
                     characters
                   </p>
@@ -175,7 +177,7 @@ export default function AddBoardForm({
             className="w-full py-3 mt-6 font-bold duration-300 rounded-full transtion hover:bg-c-main-purple-hover active:scale-95 bg-c-main-purple text-c-white"
             type="submit"
           >
-            Create New Board
+            Save Changes
           </button>
         </form>
       </div>

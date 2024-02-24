@@ -2,12 +2,18 @@
 
 import { useRef } from "react";
 import Dropdown from "../board/Dropdown";
+import useCurrentBoard from "@/hooks/useCurrentBoard";
 
 export default function AddTask() {
   const diaologRef = useRef<HTMLDialogElement | null>(null);
 
+  const [currentBoard] = useCurrentBoard();
+  const buttonIsDisabled = currentBoard?.columns.length === 0;
+
   function handleOpen() {
-    diaologRef.current?.showModal();
+    if (currentBoard !== undefined) {
+      diaologRef.current?.showModal();
+    }
   }
 
   function handleClose() {
@@ -21,18 +27,23 @@ export default function AddTask() {
   return (
     <>
       <button
+        disabled={buttonIsDisabled}
         onClick={handleOpen}
-        className={` px-6 py-4 hover:bg-c-main-purple-hover font-bold transition duration-300 rounded-full opacity-50 text-c-white flex items-center gap-2 lg:py-0 bg-c-main-purple active:scale-95`}
+        className={` px-6 py-4 font-bold transition duration-300 rounded-full text-c-white flex gap-2 lg:py-0 bg-c-main-purple ${
+          buttonIsDisabled
+            ? "cursor-not-allowed opacity-50"
+            : "hover:bg-c-main-purple-hover active:scale-95"
+        }`}
       >
-        <span className="relative lg:text-3xl bottom-1">+</span>
+        <span className="relative lg:text-3xl bottom-[2px]">+</span>
         <span className="lg:hidden">Add New Task</span>
       </button>
       <dialog
         ref={diaologRef}
         id="my_modal_2"
-        className="modal overflow-y-auto"
+        className="overflow-y-auto modal"
       >
-        <div className="relative p-8 modal-box overflow-y-visible max-h-[1000px] bg-c-dark-grey">
+        <div className="relative p-8 modal-box overflow-y-visible max-h-[1000px] bg-c-white dark:bg-c-dark-grey">
           <button className="absolute top-2 right-2" onClick={handleClose}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -48,14 +59,19 @@ export default function AddTask() {
               />
             </svg>
           </button>
-          <h3 className="mb-6 text-lg font-bold text-c-white">Add New Task</h3>
+          <h3 className="mb-6 text-lg font-bold text-c-black dark:text-c-white">
+            Add New Task
+          </h3>
           <form action="" onSubmit={handleForm}>
             <div className="flex flex-col gap-2">
-              <label className="text-c-white" htmlFor="taskTitle">
+              <label
+                className="font-bold text-c-medium-grey dark:text-c-white"
+                htmlFor="taskTitle"
+              >
                 Title
               </label>
               <input
-                className="w-full px-4 py-2 border rounded-md text-c-white bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
+                className="w-full px-4 py-2 border rounded-md text-c-black dark:text-c-white bg-c-white dark:bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
                 type="text"
                 name="taskTitle"
                 id="taskTitle"
@@ -64,11 +80,14 @@ export default function AddTask() {
             </div>
 
             <div className="flex flex-col gap-2 mt-5">
-              <label className="text-c-white" htmlFor="taskDescription">
+              <label
+                className="font-bold text-c-medium-grey dark:text-c-white"
+                htmlFor="taskDescription"
+              >
                 Description
               </label>
               <textarea
-                className="w-full px-4 py-2 border rounded-md text-c-white bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
+                className="w-full px-4 py-2 border rounded-md text-c-black dark:text-c-white bg-c-white dark:bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
                 name="taskDescription"
                 id="taskDescription"
                 cols={30}
@@ -79,12 +98,15 @@ export default function AddTask() {
             </div>
 
             <div className="flex flex-col gap-2 mt-6">
-              <label className="text-c-white" htmlFor="columnTitle">
+              <label
+                className="font-bold text-c-medium-grey dark:text-c-white"
+                htmlFor="columnTitle"
+              >
                 Subtasks
               </label>
               <div className="flex items-center gap-2">
                 <input
-                  className="w-full px-4 py-2 border rounded-md text-c-white bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
+                  className="w-full px-4 py-2 border rounded-md text-c-black dark:text-c-white bg-c-white dark:bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
                   type="text"
                   id="columnTitle"
                   name="columnTitle"
@@ -108,7 +130,7 @@ export default function AddTask() {
               </div>
               <div className="flex items-center gap-2">
                 <input
-                  className="w-full px-4 py-2 border rounded-md text-c-white bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
+                  className="w-full px-4 py-2 border rounded-md text-c-black dark:text-c-white bg-c-white dark:bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
                   type="text"
                   id="columnTitle1"
                   name="columnTitle"
@@ -130,13 +152,15 @@ export default function AddTask() {
                   </svg>
                 </button>
               </div>
-              <button className="py-3 mt-3 font-bold duration-300 rounded-full transtion hover:opacity-60 active:scale-95 bg-c-white text-c-main-purple">
+              <button className="py-3 mt-3 font-bold duration-300 rounded-full transtion hover:opacity-60 active:scale-95 bg-[#625fc73c] dark:bg-c-white text-c-main-purple">
                 + Add New Subtask
               </button>
             </div>
 
             <div className="flex flex-col gap-2 mt-5">
-              <p className="text-c-white">Status</p>
+              <p className="font-bold text-c-medium-grey dark:text-c-white">
+                Status
+              </p>
               <Dropdown
                 inputPlaceholderText="Select Column"
                 data={["To Do", "In Progress", "Done", "ge", "ge", "ge"]}

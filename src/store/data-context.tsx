@@ -2,18 +2,26 @@
 
 import { createContext, useState } from "react";
 import data from "@/data.json";
-import { DataType } from "@/types/data";
+import { DataType, TaskType } from "@/types/data";
 
-export const DataContext = createContext<{
+type DataContextType = {
   todoData: DataType[];
   addBoard: (
     boardName: string,
     columns: { value: string; id: string }[],
     id: string
   ) => void;
-}>({
+  editBoard: (
+    currentBoard: DataType,
+    boardName: string,
+    columns: { name: string; id: string; tasks: TaskType[] }[]
+  ) => void;
+};
+
+export const DataContext = createContext<DataContextType>({
   todoData: data,
   addBoard: () => {},
+  editBoard: () => {},
 });
 
 export default function DataContextProvider({
@@ -44,23 +52,24 @@ export default function DataContextProvider({
   }
 
   function editBoard(
+    currentBoard: DataType,
     boardName: string,
-    columns: { value: string; id: string }[],
-    id: string
+    columns: { name: string; id: string; tasks: TaskType[] }[]
   ) {
     setTodoData((prev) => {
-      const currentBoard = prev.find((board) => board.id === id);
-
       const newBoard = {
-        id,
+        id: currentBoard.id,
         name: boardName,
         columns: columns.map((col) => ({
           id: col.id,
-          name: col.value,
-          tasks: [],
+          name: col.name,
+          tasks: col?.tasks,
         })),
       };
-      const newData = prev.filter((board) => board.id !== id);
+      const newDataWithoutCurrent = prev.filter(
+        (board) => board.id !== currentBoard.id
+      );
+      const newData = [...newDataWithoutCurrent, newBoard];
       return newData;
     });
   }

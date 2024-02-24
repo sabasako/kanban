@@ -26,7 +26,7 @@ export default function Sidebar() {
         <Logo />
       </div>
       <div
-        className={`h-[calc(100%-7rem)] lg:h-[calc(100%-5rem)] sm:h-auto sm:left-1/2 sm:right-1/2 sm:-translate-x-1/2 sm:top-24  sm:rounded-2xl sm:w-64 overflow-y-auto transition-transform sm:transition-opacity top-header-height fixed duration-300 flex flex-col flex-grow border-c-lines-light bg-c-white dark:bg-c-dark-grey dark:border-c-lines-dark w-sidebar-width border-r sm:border-r-0 sm:z-20 ${
+        className={`h-[calc(100%-7rem)] lg:h-[calc(100%-5rem)] sm:h-auto sm:left-1/2 sm:right-1/2 sm:-translate-x-1/2 sm:top-24  sm:rounded-2xl sm:w-64 overflow-y-auto transition-transform sm:transition-opacity top-header-height fixed duration-300 flex flex-col flex-grow border-c-lines-light bg-c-white dark:bg-c-dark-grey dark:border-c-lines-dark w-sidebar-width border-r sm:border-r-0 z-10 sm:z-50 ${
           isSidebarOpen
             ? "sm:opacity-100 sm:pointer-events-auto"
             : "-translate-x-sidebar-width sm:opacity-0 sm:pointer-events-none"
@@ -52,7 +52,7 @@ export default function Sidebar() {
       {isSidebarOpen && (
         <button
           onClick={handleSidebarOpen}
-          className="fixed inset-0 z-10 hidden sm:block bg-black/35"
+          className="fixed inset-0 z-40 hidden sm:block bg-black/35"
         ></button>
       )}
     </>
