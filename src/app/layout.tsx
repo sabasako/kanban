@@ -20,12 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-c-light-grey">
-      <body className={`${jakartaSans.className}`}>
+      <body className={`${jakartaSans.className} overflow-hidden`}>
         <DataContextProvider>
           <SidebarContextProvider>
             <MainHeader />
             <Sidebar />
-            <main>{children}</main>
+            {children}
           </SidebarContextProvider>
         </DataContextProvider>
       </body>

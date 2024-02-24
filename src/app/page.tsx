@@ -8,8 +8,8 @@ export default function Home() {
   const { isSidebarOpen } = useContext(SidebarContext);
 
   return (
-    <div className={`${isSidebarOpen ? "pl-80 sm:pl-0" : "pl-0"} pt-28`}>
+    <main className={`${isSidebarOpen ? "pl-80 sm:pl-0" : "pl-0"} pt-28`}>
       <EmptyButton text="Create a new Board to get started." />
-    </div>
+    </main>
   );
 }

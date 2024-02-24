@@ -14,7 +14,7 @@ export default function MainHeader() {
             <ShowSidebar />
           </Suspense>
         </h1>
-        <div className="flex items-center gap-12 sm:gap-3">
+        <div className="flex items-center gap-12 sm:gap-8">
           <Suspense>
             <AddTask />
             <ThreeDots />

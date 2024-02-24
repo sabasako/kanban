@@ -10,11 +10,19 @@ export default function BoardName({
   const [currentBoard] = useCurrentBoard();
 
   if (currentBoard === undefined) {
-    return <span>Board wasn&apos;t found</span>;
+    return (
+      <span className={`${shouldBeHiddenForSmallScreens ? "sm:hidden" : ""}`}>
+        Board wasn&apos;t found
+      </span>
+    );
   }
 
   return (
-    <span className={`${shouldBeHiddenForSmallScreens ? "sm:hidden" : ""}`}>
+    <span
+      className={`${
+        shouldBeHiddenForSmallScreens ? "sm:hidden" : ""
+      } sm:text-sm`}
+    >
       {currentBoard.name}
     </span>
   );

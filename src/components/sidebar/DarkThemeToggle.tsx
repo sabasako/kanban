@@ -45,7 +45,7 @@ export default function DarkThemeToggle({
   return (
     <div className="relative flex items-end flex-grow mx-auto mt-5 sm:mb-6">
       <div>
-        <label className="flex items-center justify-center p-6 px-12 cursor-pointer rounded-xl dark:bg-c-very-dark-grey bg-c-light-grey gap-7 sm:px-8 sm:p-4">
+        <label className="flex items-center justify-center p-6 px-12 cursor-pointer rounded-xl dark:bg-c-very-dark-grey bg-c-light-grey gap-7 lg:px-8 sm:p-4">
           <Light />
           <input
             id="themeToggle"

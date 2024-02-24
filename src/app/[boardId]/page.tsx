@@ -62,10 +62,10 @@ export default function BoardPage({
   }
 
   return (
-    <div
+    <main
       className={`${
-        isSidebarOpen ? "pl-[344px] sm:pl-4" : "pl-4"
-      } pt-32 flex gap-6 overflow-x-auto transition-[padding] duration-300`}
+        isSidebarOpen ? "pl-[calc(var(--sidebar-width)+24px)] sm:pl-4" : "pl-4"
+      } pt-[calc(var(--header-height)+24px)] flex gap-6 overflow-x-auto overflow-y-auto h-[calc(100lvh)] transition-[padding] duration-300`}
     >
       {currentBoard.columns.map((column, index) => (
         <Column
@@ -76,7 +76,7 @@ export default function BoardPage({
       ))}
       <button
         onClick={handleOpen}
-        className="flex-shrink-0 text-c-medium-grey text-2xl flex justify-center items-center bg-gradient-to-t  from-[#e9effa8e] to-[#e9effa2c] dark:from-[#2B2C3775] dark:to-[#2b2c3721] min-h-[calc(100lvh-200px)] w-72 rounded-2xl font-bold cursor-pointer mt-12 mb-6 transition duration-300 hover:text-c-dark-grey hover:dark:text-c-light-grey active:scale-95 "
+        className="flex-shrink-0 text-c-medium-grey text-2xl flex self-stretch justify-center items-center bg-gradient-to-t  from-[#e9effa8e] to-[#e9effa2c] dark:from-[#2B2C3775] dark:to-[#2b2c3721] w-72 rounded-2xl font-bold cursor-pointer mt-12 mb-6 transition duration-300 hover:text-c-dark-grey hover:dark:text-c-light-grey active:scale-95 "
       >
         + New Column
       </button>
@@ -85,6 +85,6 @@ export default function BoardPage({
         dialogRef={dialogRef}
         currentBoard={currentBoard}
       />
-    </div>
+    </main>
   );
 }
