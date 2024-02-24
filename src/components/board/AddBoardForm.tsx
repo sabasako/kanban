@@ -91,7 +91,7 @@ export default function AddBoardForm({
         <form action="" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <label
-              className="text-c-medium-grey dark:text-c-white font-bold"
+              className="font-bold text-c-medium-grey dark:text-c-white"
               htmlFor="boardName"
             >
               Board Name
@@ -107,19 +107,16 @@ export default function AddBoardForm({
               placeholder="e.g. Web Design"
             />
             {boardName.length > MAX_BOARDNAME_LENGTH && (
-              <p className="text-c-main-red text-sm">
+              <p className="text-sm text-c-main-red">
                 Board name should be less than {MAX_BOARDNAME_LENGTH} characters
               </p>
             )}
           </div>
 
           <div className="flex flex-col gap-2 mt-6">
-            <label
-              className="text-c-medium-grey dark:text-c-white font-bold"
-              htmlFor="columnTitle"
-            >
+            <p className="font-bold text-c-medium-grey dark:text-c-white">
               Board Columns
-            </label>
+            </p>
             {columns.length === 0 && <p>No Columns Added</p>}
             {columns.map((col) => (
               <div key={col.id}>
@@ -156,7 +153,7 @@ export default function AddBoardForm({
                   </button>
                 </div>
                 {col.value.length > MAX_COLUMNNAME_LENGTH && (
-                  <p className="text-c-main-red text-sm mt-1">
+                  <p className="mt-1 text-sm text-c-main-red">
                     Column title should be less than {MAX_COLUMNNAME_LENGTH}{" "}
                     characters
                   </p>

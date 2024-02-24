@@ -116,12 +116,9 @@ export default function EditBoardForm({
           </div>
 
           <div className="flex flex-col gap-2 mt-6">
-            <label
-              className="font-bold text-c-medium-grey dark:text-c-white"
-              htmlFor="columnTitle"
-            >
+            <p className="font-bold text-c-medium-grey dark:text-c-white">
               Board Columns
-            </label>
+            </p>
             {columns.length === 0 && <p>No Columns Added</p>}
             {columns.map((col) => (
               <div key={col.id}>

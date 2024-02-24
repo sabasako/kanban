@@ -2,26 +2,23 @@
 
 import { useState } from "react";
 import DownArrow from "../svgs/DownArrow";
+import { ColumnType } from "@/types/data";
 
 type DropdownProps = {
-  inputPlaceholderText: string;
-  data: string[];
+  data: ColumnType[];
+  placeholder: { name: string; id: string };
+  onPlaceholderChange: (name: string, id: string) => void;
 };
 
 export default function Dropdown({
-  inputPlaceholderText,
+  placeholder,
   data,
+  onPlaceholderChange,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [placeholder, setPlaceholder] = useState(inputPlaceholderText);
 
   function handleDropdown() {
     setIsOpen((prev) => !prev);
-  }
-
-  function handleSelect(col: string) {
-    setIsOpen(true);
-    setPlaceholder(col);
   }
 
   return (
@@ -29,22 +26,25 @@ export default function Dropdown({
       onClick={handleDropdown}
       className="relative w-full h-11 px-4 py-2 border rounded-sm text-c-black dark:text-c-white bg-c-white dark:bg-c-dark-grey border-[#828fa362] transition duration-300 hover:border-c-main-purple flex justify-between items-center cursor-pointer"
     >
-      <p>{placeholder}</p>
+      <p>{placeholder.name}</p>
       <DownArrow isSidebarOpen={isOpen} />
       {isOpen && (
         <div className="absolute left-0 right-0 overflow-auto translate-y-4 rounded-b shadow-2xl max-h-40 top-full bg-c-white dark:bg-c-dark-grey ">
           <ul className="text-sm">
-            {data.map((col, i) => (
+            {data.map((col) => (
               <li
-                key={col + i}
+                key={col.id}
                 className={`px-3 py-2 mb-1 hover:bg-c-main-purple hover:text-c-white ${
-                  placeholder === col
-                    ? "bg-c-main-purple text-c-white dark:text-c-black"
+                  placeholder.id === col.id
+                    ? "bg-c-main-purple text-c-white"
                     : ""
                 }`}
-                onClick={() => handleSelect(col)}
+                onClick={() => {
+                  setIsOpen(true);
+                  onPlaceholderChange(col.name, col.id);
+                }}
               >
-                {col}
+                {col.name}
               </li>
             ))}
           </ul>

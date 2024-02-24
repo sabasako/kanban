@@ -2,7 +2,7 @@
 
 import { createContext, useState } from "react";
 import data from "@/data.json";
-import { DataType, TaskType } from "@/types/data";
+import { DataType, SubtaskType, TaskType } from "@/types/data";
 
 type DataContextType = {
   todoData: DataType[];
@@ -16,12 +16,23 @@ type DataContextType = {
     boardName: string,
     columns: { name: string; id: string; tasks: TaskType[] }[]
   ) => void;
+  addTask: (
+    title: string,
+    description: string,
+    subtasks: SubtaskType[],
+    id: string,
+    statusId: string,
+    statusName: string
+  ) => void;
+  deleteBoard: (boardId: string) => void;
 };
 
 export const DataContext = createContext<DataContextType>({
   todoData: data,
   addBoard: () => {},
   editBoard: () => {},
+  addTask: () => {},
+  deleteBoard: () => {},
 });
 
 export default function DataContextProvider({
@@ -30,6 +41,10 @@ export default function DataContextProvider({
   children: React.ReactNode;
 }) {
   const [todoData, setTodoData] = useState(data);
+
+  function deleteBoard(boardId: string) {
+    setTodoData((prev) => prev.filter((board) => board.id !== boardId));
+  }
 
   // adds new board which has board name and columnt titles, it doesn't have tasks or subtasks
   function addBoard(
@@ -51,6 +66,7 @@ export default function DataContextProvider({
     ]);
   }
 
+  // edits the board name and columns
   function editBoard(
     currentBoard: DataType,
     boardName: string,
@@ -74,7 +90,43 @@ export default function DataContextProvider({
     });
   }
 
-  const dataValue = { todoData, addBoard, editBoard };
+  // adds new task and subtasks to the board
+  function addTask(
+    title: string,
+    description: string,
+    subtasks: SubtaskType[],
+    id: string,
+    statusId: string,
+    statusName: string
+  ) {
+    setTodoData((prev) => {
+      const newTask = {
+        id,
+        title,
+        description,
+        subtasks,
+        status: statusName,
+      };
+
+      return prev.map((board) => {
+        const newColumns = board.columns.map((column) => {
+          if (column.id === statusId) {
+            return {
+              ...column,
+              tasks: [...column.tasks, newTask],
+            };
+          }
+          return column;
+        });
+        return {
+          ...board,
+          columns: newColumns,
+        };
+      });
+    });
+  }
+
+  const dataValue = { todoData, addBoard, editBoard, addTask, deleteBoard };
 
   return (
     <DataContext.Provider value={dataValue}>{children}</DataContext.Provider>

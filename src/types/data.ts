@@ -11,6 +11,7 @@ export type ColumnType = {
 };
 
 export type TaskType = {
+  id: string;
   title: string;
   description: string;
   status: string;
@@ -18,6 +19,7 @@ export type TaskType = {
 };
 
 export type SubtaskType = {
+  id: string;
   title: string;
   isCompleted: boolean;
 };

@@ -8,60 +8,72 @@
         "name": "Todo",
         "tasks": [
           {
+            "id": "35125982-f546-43bb-a44f-dasdkoipa",
             "title": "Build UI for onboarding flow",
             "description": "",
             "status": "Todo",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-a44f-123jk0",
                 "title": "Sign up page",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-a44f-dadwq123",
                 "title": "Sign in page",
                 "isCompleted": false
               },
               {
+                "id": "35125982-f546-43bb-dasda44f-ddd61f816d370",
                 "title": "Welcome page",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "35125982-f546-43bb-a44f-ddd61f8dsad1",
             "title": "Build UI for search",
             "description": "",
             "status": "Todo",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-dasda44f-ddd61f81das70",
                 "title": "Search page",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "35125982-f546-dsadda-dasda44f-ddd61f816d370",
             "title": "Build settings UI",
             "description": "",
             "status": "Todo",
             "subtasks": [
               {
+                "id": "35125982-f546dasda-43bb-dasda44f",
                 "title": "Account page",
                 "isCompleted": false
               },
               {
+                "id": "35125982-f546-43bb-dasda44f-dddsad16d370",
                 "title": "Billing page",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "35125982-f546-43bb-dasda44f-dasd1256543",
             "title": "QA and test all major user journeys",
             "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
             "status": "Todo",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-dasda44f-fewnqoikp123",
                 "title": "Internal testing",
                 "isCompleted": false
               },
               {
+                "id": "dfwpo123-f546-43bb-dasda44f-ddd61f816d370",
                 "title": "External testing",
                 "isCompleted": false
               }
@@ -74,106 +86,128 @@
         "name": "Doing",
         "tasks": [
           {
+            "id": "35125982-f546-43bb-dasda44f-dasn131",
             "title": "Design settings and search pages",
             "description": "",
             "status": "Doing",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-dasda44f-dwqjoikp321",
                 "title": "Settings - Account page",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-dasda44f-fwr123214",
                 "title": "Settings - Billing page",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-dasda44f-wer31242",
                 "title": "Search page",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "35125982-f54dasdasd-dasda44f-ddd61f816d370",
             "title": "Add account management endpoints",
             "description": "",
             "status": "Doing",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-fjweioeew-dnoiwf",
                 "title": "Upgrade plan",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-fjweioeew-wmqn89",
                 "title": "Cancel plan",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-fjweioeew-dmnqwdjj123",
                 "title": "Update payment method",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "dqwdmjk123-f546-43bb-dasda44f-ddd61f816d370",
             "title": "Design onboarding flow",
             "description": "",
             "status": "Doing",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-dsaikopd-dsa123490",
                 "title": "Sign up page",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-dsaikopd-jn132140",
                 "title": "Sign in page",
                 "isCompleted": false
               },
               {
+                "id": "35125982-f546-43bb-dsaikopd-lodiau123",
                 "title": "Welcome page",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "fsdmkfjmop123-f546-43bb-dasda44f-ddd61f816d370",
             "title": "Add search enpoints",
             "description": "",
             "status": "Doing",
             "subtasks": [
               {
+                "id": "35125982-eeqqwf-43bb-dasda44f-dmfkopw123",
                 "title": "Add search endpoint",
                 "isCompleted": true
               },
               {
+                "id": "35125982-eeqqwf-43bb-dasda44f-fsd159014kj",
                 "title": "Define search filters",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "35125982-f546-43bb-daskdn1i2341-ddd61f816d370",
             "title": "Add authentication endpoints",
             "description": "",
             "status": "Doing",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-fwe99mko131-ddd61f816d370",
                 "title": "Define user model",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-fqwoopp132-ddd61f816d370",
                 "title": "Add auth endpoints",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "35125982-43bb-dasdi1312-dasda44f-ddd61f816d370",
             "title": "Research pricing points of various competitors and trial different business models",
             "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
             "status": "Doing",
             "subtasks": [
               {
+                "id": "35125982-f546-43bb-dwiok0899131",
                 "title": "Research competitor pricing and business models",
                 "isCompleted": true
               },
               {
+                "id": "35125982-f546-43bb-dasda-dwiok0899131",
                 "title": "Outline a business model that works for our solution",
                 "isCompleted": false
               },
               {
+                "id": "35125982-f546-43bb-dwiok0899131-dasasda",
                 "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
                 "isCompleted": false
               }
@@ -186,97 +220,116 @@
         "name": "Done",
         "tasks": [
           {
+            "id": "35125982-f546-43bb-dasdiop13212-ddd61f816d370",
             "title": "Conduct 5 wireframe tests",
             "description": "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
             "status": "Done",
             "subtasks": [
               {
+                "id": "35125982-dasdkioo-312321jklfspd-43bb-dasda44f",
                 "title": "Complete 5 wireframe prototype tests",
                 "isCompleted": true
               }
             ]
           },
           {
+            "id": "fsdkpogkw13124-f546-43bb-dasda44f-ddioqwkp13123",
             "title": "Create wireframe prototype",
             "description": "Create a greyscale clickable wireframe prototype to test our asssumptions so far.",
             "status": "Done",
             "subtasks": [
               {
+                "id": "fsdkpogkw13124-f546-43bb-dasda44f-dadiokp09900i4",
                 "title": "Create clickable wireframe prototype in Balsamiq",
                 "isCompleted": true
               }
             ]
           },
           {
+            "id": "fsdkpogkw13124-f546-43bb-fwef122313-ddioqwkp13123",
             "title": "Review results of usability tests and iterate",
             "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
             "status": "Done",
             "subtasks": [
               {
+                "id": "fsdkpogkw13124-f546-43bb-dqf123123-ddioqwkp13123",
                 "title": "Meet to review notes from previous tests and plan changes",
                 "isCompleted": true
               },
               {
+                "id": "fsdkpogkw13124-f546-43bb-dqf123123-dkasj1231",
                 "title": "Make changes to paper prototypes",
                 "isCompleted": true
               },
               {
+                "id": "fsdkpogkw13124-f546-43bb-dqf123123-0979842ju8",
                 "title": "Conduct 5 usability tests",
                 "isCompleted": true
               }
             ]
           },
           {
+            "id": "fsdkpogkw13124-f546-43bb-dasda44f-dasd131",
             "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
             "description": "",
             "status": "Done",
             "subtasks": [
               {
+                "id": "fsdkpogkw13124-f546-43bb-fwef122313-ops9jfo894",
                 "title": "Create paper prototypes for version one",
                 "isCompleted": true
               },
               {
+                "id": "fsdkpogkw13124-dsakdmj123-43bb-fwef122313-ops9jfo894",
                 "title": "Complete 10 usability tests",
                 "isCompleted": true
               }
             ]
           },
           {
+            "id": "fsdkpogkw13124-f546-43bb-dasda44f-ewtwert131",
             "title": "Market discovery",
             "description": "We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.",
             "status": "Done",
             "subtasks": [
               {
+                "id": "das132mkl13-f546-43bb-dkmkl-ddioqwkp13123",
                 "title": "Interview 10 prospective customers",
                 "isCompleted": true
               }
             ]
           },
           {
+            "id": "fsdkpogkw13124-f546-43bb-4123ffewf-ddioqwkp13123",
             "title": "Competitor analysis",
             "description": "",
             "status": "Done",
             "subtasks": [
               {
+                "id": "fsdkpogkw13124-fkmaslfj-43bb-fwef122313",
                 "title": "Find direct and indirect competitors",
                 "isCompleted": true
               },
               {
+                "id": "fsdkpogkw13124-f546-43bb-fkmaslfj-ddioqwkp13123",
                 "title": "SWOT analysis for each competitor",
                 "isCompleted": true
               }
             ]
           },
           {
+            "id": "ewqr12314-f546-43bb-dasda44f-ddioqwkp13123",
             "title": "Research the market",
             "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
             "status": "Done",
             "subtasks": [
               {
+                "id": "fsdkpogkw13124-f546-43bb-fwef122313-dasijdi132",
                 "title": "Write up research analysis",
                 "isCompleted": true
               },
               {
+                "id": "fwekf903123-f546-43bb-fwef122313-ddioqwkp13123",
                 "title": "Calculate TAM",
                 "isCompleted": true
               }
@@ -295,73 +348,89 @@
         "name": "Todo",
         "tasks": [
           {
+            "id": "domwqoik123-43bb-dasodmk1231-dwqnhjoe",
             "title": "Plan Product Hunt launch",
             "description": "",
             "status": "Todo",
             "subtasks": [
               {
+                "id": "dajdmo13221-132-fwef122313-dnaskj1231",
                 "title": "Find hunter",
                 "isCompleted": false
               },
               {
+                "id": "dajdmo13221-132-dasda-dnaskj1231",
                 "title": "Gather assets",
                 "isCompleted": false
               },
               {
+                "id": "dajdmo13221-132-123sfd-dnaskj1231",
                 "title": "Draft product page",
                 "isCompleted": false
               },
               {
+                "id": "dajdmo13221-132-wfkiop432-dnaskj1231",
                 "title": "Notify customers",
                 "isCompleted": false
               },
               {
+                "id": "dajdmo13221-132-fwel123-dnaskj1231",
                 "title": "Notify network",
                 "isCompleted": false
               },
               {
+                "id": "dajdmo13221-dasmkdlkl123-fwef122313-dnaskj1231",
                 "title": "Launch!",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "domwqoik123-43bb-31231-dwqnhjoe",
             "title": "Share on Show HN",
             "description": "",
             "status": "",
             "subtasks": [
               {
+                "id": "fsdkpogkw13124-dqw-43bb-fwef122313-ddioqwkp13123",
                 "title": "Draft out HN post",
                 "isCompleted": false
               },
               {
+                "id": "faskfm6-43bb-fwef122313-ddioqwkp13123",
                 "title": "Get feedback and refine",
                 "isCompleted": false
               },
               {
+                "id": "fsdkpogkw13124-f546-dasda-fwef122313-ddioqwkp13123",
                 "title": "Publish post",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "domwqoik123-43bb-djoikdmw-fsdkm132",
             "title": "Write launch article to publish on multiple channels",
             "description": "",
             "status": "",
             "subtasks": [
               {
+                "id": "fsdkpogkw13124-f546-43bb-dmjqkod-w12309fdj",
                 "title": "Write article",
                 "isCompleted": false
               },
               {
+                "id": "fsdkpogkw13124-f546-dakjdio123-w12309fdj",
                 "title": "Publish on LinkedIn",
                 "isCompleted": false
               },
               {
+                "id": "fsdlkm123-f546-43bb-dmjqkod-w12309fdj",
                 "title": "Publish on Inndie Hackers",
                 "isCompleted": false
               },
               {
+                "id": "dskfmll132190-f546-43bb-dmjqkod-w12309fdj",
                 "title": "Publish on Medium",
                 "isCompleted": false
               }
@@ -390,34 +459,41 @@
         "name": "Now",
         "tasks": [
           {
+            "id": "dwqdko123-f546-43bb-fwef122313-ddioqwkp13123",
             "title": "Launch version one",
             "description": "",
             "status": "",
             "subtasks": [
               {
+                "id": "123-f546-43bb-fwefwe123-ddioqwkp13123",
                 "title": "Launch privately to our waitlist",
                 "isCompleted": false
               },
               {
+                "id": "dasf132-f546-fwefw-fwef122313-ddioqwkp13123",
                 "title": "Launch publicly on PH, HN, etc.",
                 "isCompleted": false
               }
             ]
           },
           {
+            "id": "dwqd-kiokp132f-43bb-fwef122313-ddioqwkp13123",
             "title": "Review early feedback and plan next steps for roadmap",
             "description": "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
             "status": "",
             "subtasks": [
               {
+                "id": "kkjfkewopfmjkw-123214iojknvkjdskopk-jdf",
                 "title": "Interview 10 customers",
                 "isCompleted": false
               },
               {
+                "id": "kkjfkewopfmjkw-dwoqmjikopwen132-jdf",
                 "title": "Review common customer pain points and suggestions",
                 "isCompleted": false
               },
               {
+                "id": "kkjfkewopfmjkw-fiewikpf09897641sdf2-jdf",
                 "title": "Outline next steps for our roadmap",
                 "isCompleted": false
               }

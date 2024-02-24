@@ -21,7 +21,7 @@ export default function Column({
   index: number;
 }) {
   return (
-    <div className="w-72 flex-shrink-0">
+    <div className="flex-shrink-0 w-72">
       <h2 className="text-c-medium-grey text-base tracking-[0.2em] flex gap-2 items-center">
         <div
           className={`size-4 rounded-full ${

@@ -1,22 +1,49 @@
 "use client";
 
 import useCurrentBoard from "@/hooks/useCurrentBoard";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import EditBoardForm from "../board/EditBoardForm";
+import DeleteBoardForm from "../board/DeleteBoardForm";
+import { DataContext } from "@/store/data-context";
+import { useRouter } from "next/navigation";
 
 export default function ThreeDots() {
+  const { deleteBoard, todoData } = useContext(DataContext);
+
   const [currentBoard] = useCurrentBoard();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const deleteDialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const router = useRouter();
+
+  function handleBoardDelete() {
+    if (currentBoard === undefined) return;
+    deleteBoard(currentBoard.id);
+
+    if (todoData.length !== 1) {
+      router.push(`/board-?id=${todoData[0].id}`);
+    }
+  }
 
   function handleOpen() {
     dialogRef.current?.showModal();
+    setIsOpen(false);
   }
 
   function handleClose() {
     dialogRef.current?.close();
+  }
+
+  function handleDeleteOpen() {
+    deleteDialogRef.current?.showModal();
     setIsOpen(false);
+  }
+
+  function handleDeleteClose() {
+    deleteDialogRef.current?.close();
   }
 
   function handleClick() {
@@ -38,21 +65,21 @@ export default function ThreeDots() {
           cx="2.30769"
           cy="2.30769"
           r="2.30769"
-          className="transition duration-300 group-hover:fill-c-white"
+          className="transition duration-300 group-hover:fill-c-main-purple dark:group-hover:fill-c-white"
           fill="#828FA3"
         />
         <circle
           cx="2.30769"
           cy="10"
           r="2.30769"
-          className="transition duration-300 group-hover:fill-c-white"
+          className="transition duration-300 group-hover:fill-c-main-purple dark:group-hover:fill-c-white"
           fill="#828FA3"
         />
         <circle
           cx="2.30769"
           cy="17.6923"
           r="2.30769"
-          className="transition duration-300 group-hover:fill-c-white"
+          className="transition duration-300 group-hover:fill-c-main-purple dark:group-hover:fill-c-white"
           fill="#828FA3"
         />
       </svg>
@@ -65,7 +92,10 @@ export default function ThreeDots() {
             >
               Edit Board
             </button>
-            <button className="transition duration-300 text-start text-c-main-red hover:text-c-main-red-hover">
+            <button
+              onClick={handleDeleteOpen}
+              className="transition duration-300 text-start text-c-main-red hover:text-c-main-red-hover"
+            >
               Delete Board
             </button>
           </div>
@@ -80,6 +110,14 @@ export default function ThreeDots() {
           currentBoard={currentBoard}
           dialogRef={dialogRef}
           handleClose={handleClose}
+        />
+      )}
+      {currentBoard !== undefined && (
+        <DeleteBoardForm
+          currentBoard={currentBoard}
+          dialogRef={deleteDialogRef}
+          handleClose={handleDeleteClose}
+          handleDelete={handleBoardDelete}
         />
       )}
     </div>
