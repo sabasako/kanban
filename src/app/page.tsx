@@ -10,7 +10,11 @@ export default function Home() {
   const { todoData } = useContext(DataContext);
 
   return (
-    <main className={`${isSidebarOpen ? "pl-80" : "pl-0"} pt-28 sm:px-8`}>
+    <main
+      className={`${
+        isSidebarOpen ? "pl-80" : "pl-0"
+      } pt-28 transition-[padding] duration-300 sm:px-8`}
+    >
       <EmptyButton
         text={`Create a new Board to get started ${
           todoData.length !== 0 ? "or select existing one on sidebar" : ""

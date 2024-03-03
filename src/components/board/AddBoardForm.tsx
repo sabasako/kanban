@@ -136,8 +136,8 @@ export default function AddBoardForm({
                     }
                     className="w-full px-4 py-2 border rounded-md text-c-black dark:text-c-white bg-c-white dark:bg-c-dark-grey border-[#828fa362] focus:outline-none focus:border-c-main-purple"
                     type="text"
-                    id={col.id}
-                    name={col.id}
+                    id={`board-${col.id}`}
+                    name={`board-${col.id}`}
                     placeholder={"e.g. Todo"}
                   />
                   <button

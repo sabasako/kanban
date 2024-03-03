@@ -29,7 +29,11 @@ export default function BoardPage({
   // If the board wasn't found, show a message
   if (currentBoard === undefined) {
     return (
-      <div className={`${isSidebarOpen ? "pl-80 sm:pl-0" : "pl-0"} pt-28`}>
+      <div
+        className={`${
+          isSidebarOpen ? "pl-80 sm:pl-0" : "pl-0"
+        } transition-[padding] duration-300 pt-28`}
+      >
         <EmptyButton text="Board wasn't found" />
       </div>
     );
@@ -41,7 +45,7 @@ export default function BoardPage({
       <div
         className={`${
           isSidebarOpen ? "pl-80 sm:pl-0" : "pl-0"
-        } pt-28 flex max-h-[600px] h-dvh flex-col gap-6 justify-center items-center`}
+        } pt-28 flex max-h-[600px] transition-[padding] duration-300 h-dvh flex-col gap-6 justify-center items-center`}
       >
         <h2 className="text-xl">
           This board is empty. Create a new column to get started.
