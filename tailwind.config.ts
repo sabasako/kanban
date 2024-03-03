@@ -43,6 +43,8 @@ const config: Config = {
       md: { max: "767px" },
       sm: { max: "639px" },
       xs: { max: "500px" },
+      taskMaxHeight: { raw: "(max-height: 1000px)" },
+      taskInformationMaxHeight: { raw: "(max-height: 700px)" },
     },
   },
   plugins: [require("daisyui")],

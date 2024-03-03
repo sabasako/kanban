@@ -28,28 +28,33 @@ export default function Dropdown({
     >
       <p>{placeholder.name}</p>
       <DownArrow isSidebarOpen={isOpen} />
-      {isOpen && (
-        <div className="absolute left-0 right-0 overflow-auto translate-y-4 rounded-b shadow-2xl max-h-40 top-full bg-c-white dark:bg-c-dark-grey ">
-          <ul className="text-sm">
-            {data.map((col) => (
-              <li
-                key={col.id}
-                className={`px-3 py-2 mb-1 hover:bg-c-main-purple hover:text-c-white ${
-                  placeholder.id === col.id
-                    ? "bg-c-main-purple text-c-white"
-                    : ""
-                }`}
-                onClick={() => {
-                  setIsOpen(true);
-                  onPlaceholderChange(col.name, col.id);
-                }}
-              >
-                {col.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div
+        className={`absolute left-0 right-0 overflow-auto translate-y-4 rounded-b shadow-2xl top-full bg-c-white dark:bg-c-dark-grey transition-all duration-300 ${
+          isOpen
+            ? "max-h-28 overflow-auto pointer-events-auto visible opacity-100"
+            : "max-h-0 overflow-hidden pointer-events-none invisible opacity-0 -z-10"
+        }`}
+      >
+        <ul className="text-sm">
+          {data.map((col) => (
+            <li
+              key={col.id}
+              className={`px-3 py-2 mb-1 hover:bg-c-main-purple hover:text-c-white ${
+                placeholder.id === col.id ? "bg-c-main-purple text-c-white" : ""
+              }`}
+              onClick={() => {
+                setIsOpen(true);
+                onPlaceholderChange(col.name, col.id);
+              }}
+            >
+              {col.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {/* {isOpen && (
+      
+      )} */}
     </div>
   );
 }

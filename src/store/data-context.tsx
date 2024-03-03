@@ -24,7 +24,9 @@ type DataContextType = {
     statusId: string,
     statusName: string
   ) => void;
+  changeTaskStatus: (taskId: string, status: string) => void;
   deleteBoard: (boardId: string) => void;
+  changeSubtask: (taskId: string, subtaskId: string) => void;
 };
 
 export const DataContext = createContext<DataContextType>({
@@ -32,7 +34,9 @@ export const DataContext = createContext<DataContextType>({
   addBoard: () => {},
   editBoard: () => {},
   addTask: () => {},
+  changeTaskStatus: () => {},
   deleteBoard: () => {},
+  changeSubtask: () => {},
 });
 
 export default function DataContextProvider({
@@ -42,11 +46,12 @@ export default function DataContextProvider({
 }) {
   const [todoData, setTodoData] = useState(data);
 
+  // deletes the board
   function deleteBoard(boardId: string) {
     setTodoData((prev) => prev.filter((board) => board.id !== boardId));
   }
 
-  // adds new board which has board name and columnt titles, it doesn't have tasks or subtasks
+  // adds new board which has board name and column titles, it doesn't have tasks or subtasks
   function addBoard(
     boardName: string,
     columns: { value: string; id: string }[],
@@ -126,7 +131,56 @@ export default function DataContextProvider({
     });
   }
 
-  const dataValue = { todoData, addBoard, editBoard, addTask, deleteBoard };
+  // changes the status of a task
+  function changeTaskStatus(statusId: string, status: string) {
+    setTodoData((prev) =>
+      prev.map((board) => ({
+        ...board,
+        columns: board.columns.map((column) => ({
+          ...column,
+          tasks:
+            statusId === column.id
+              ? column.tasks.map((task) => ({ ...task, status }))
+              : column.tasks,
+        })),
+      }))
+    );
+  }
+
+  // toggles isCompleted status of a subtask.
+  function changeSubtask(taskId: string, subtaskId: string) {
+    setTodoData((prev) =>
+      prev.map((board) => ({
+        ...board,
+        columns: board.columns.map((column) => ({
+          ...column,
+          tasks: column.tasks.map((task) => ({
+            ...task,
+            subtasks:
+              task.id === taskId
+                ? task.subtasks.map((subtask) => ({
+                    ...subtask,
+                    isCompleted:
+                      subtask.id === subtaskId
+                        ? !subtask.isCompleted
+                        : subtask.isCompleted,
+                  }))
+                : task.subtasks,
+          })),
+        })),
+      }))
+    );
+  }
+
+  const dataValue = {
+    todoData,
+    deleteBoard,
+    addBoard,
+    editBoard,
+    addTask,
+    changeTaskStatus,
+    changeSubtask,
+  };
 
   return (
     <DataContext.Provider value={dataValue}>{children}</DataContext.Provider>

@@ -1,4 +1,4 @@
-import { ColumnType } from "@/types/data";
+import { ColumnType, DataType } from "@/types/data";
 import Task from "./Task";
 
 const colors = [
@@ -14,9 +14,11 @@ const colors = [
 ];
 
 export default function Column({
+  currentBoard,
   column,
   index,
 }: {
+  currentBoard: DataType;
   column: ColumnType;
   index: number;
 }) {
@@ -32,7 +34,7 @@ export default function Column({
           {column.name} ({column.tasks.length})
         </span>
       </h2>
-      <Task column={column} key={column.name} />
+      <Task currentBoard={currentBoard} column={column} key={column.name} />
     </div>
   );
 }

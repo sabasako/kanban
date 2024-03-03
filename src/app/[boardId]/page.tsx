@@ -68,7 +68,12 @@ export default function BoardPage({
       } pt-[calc(var(--header-height)+24px)] flex gap-6 overflow-x-auto overflow-y-auto h-[calc(100lvh)] transition-[padding] duration-300`}
     >
       {currentBoard.columns.map((column, index) => (
-        <Column column={column} index={index} key={column.id} />
+        <Column
+          currentBoard={currentBoard}
+          column={column}
+          index={index}
+          key={column.id}
+        />
       ))}
       <button
         onClick={handleOpen}

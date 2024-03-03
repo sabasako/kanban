@@ -90,8 +90,12 @@ export default function AddTaskForm({
   }
 
   return (
-    <dialog ref={dialogRef} id="my_modal_2" className="overflow-y-auto modal">
-      <div className="relative p-8 overflow-y-visible modal-box bg-c-white dark:bg-c-dark-grey">
+    <dialog
+      ref={dialogRef}
+      id="my_modal_2"
+      className="overflow-y-auto taskMaxHeight:overflow-y-visible modal"
+    >
+      <div className="relative p-8 overflow-y-visible taskMaxHeight:overflow-y-auto modal-box bg-c-white dark:bg-c-dark-grey">
         <button className="absolute top-2 right-2" onClick={handleClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +154,7 @@ export default function AddTaskForm({
             ></textarea>
           </div>
 
-          <div className="flex flex-col gap-2 mt-6 max-h-[300px] overflow-y-auto">
+          <div className="flex flex-col gap-2 mt-6 max-h-[300px] overflow-y-auto taskMaxHeight:max-h-none taskMaxHeight:overflow-y-visible">
             <p className="font-bold text-c-medium-grey dark:text-c-white">
               Subtasks
             </p>
