@@ -1,6 +1,5 @@
 "use client";
 
-import BoardButton from "./BoardButton";
 import DarkThemeToggle from "./DarkThemeToggle";
 import Logo from "../svgs/Logo";
 import NewBoard from "../button/NewBoard";
@@ -8,6 +7,7 @@ import { Suspense, useContext } from "react";
 import ShowSidebarSvg from "../svgs/ShowSidebarSvg";
 import { SidebarContext } from "@/store/sidebar-context";
 import { DataContext } from "@/store/data-context";
+import BoardLinks from "./BoardLinks";
 
 export default function Sidebar() {
   const { isSidebarOpen, handleSidebarClose, handleSidebarOpen } =
@@ -35,11 +35,7 @@ export default function Sidebar() {
           All Boards ({todoData.length})
         </h2>
         <Suspense>
-          <ul>
-            {todoData.map((board) => (
-              <BoardButton link={board.id} text={board.name} key={board.id} />
-            ))}
-          </ul>
+          <BoardLinks />
         </Suspense>
         <NewBoard isOnSidebar={true} />
         <DarkThemeToggle onSidebar={handleSidebarOpen} />

@@ -3,8 +3,10 @@
 import { createContext, useState } from "react";
 import data from "@/data.json";
 import { DataType, SubtaskType, TaskType } from "@/types/data";
+import { arrayMove } from "@dnd-kit/sortable";
 
 type DataContextType = {
+  dragBoardLinks: (event: any) => void;
   todoData: DataType[];
   addBoard: (
     boardName: string,
@@ -38,6 +40,7 @@ type DataContextType = {
 };
 
 export const DataContext = createContext<DataContextType>({
+  dragBoardLinks: () => {},
   todoData: data,
   addBoard: () => {},
   editBoard: () => {},
@@ -55,6 +58,21 @@ export default function DataContextProvider({
   children: React.ReactNode;
 }) {
   const [todoData, setTodoData] = useState(data);
+
+  function dragBoardLinks(event: any) {
+    const { active, over } = event;
+
+    if (!active || !over) return;
+    if (active?.id === over?.id) return;
+
+    setTodoData((prev) => {
+      // prettier-ignore
+      const originalPosition = prev.findIndex((task) => task.id === active.id);
+      const newPosition = prev.findIndex((task) => task.id === over.id);
+
+      return arrayMove(prev, originalPosition, newPosition);
+    });
+  }
 
   // deletes the board
   function deleteBoard(boardId: string) {
@@ -227,6 +245,7 @@ export default function DataContextProvider({
   }
 
   const dataValue = {
+    dragBoardLinks,
     todoData,
     deleteBoard,
     addBoard,
