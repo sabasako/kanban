@@ -1,7 +1,8 @@
 export default function Skeleton() {
   return (
-    <>
-      <h1 className="text-4xl text-center">Loading...</h1>
-    </>
+    <div className="flex flex-col gap-4 w-52">
+      <div className="w-full h-4 skeleton"></div>
+      <div className="h-4 skeleton w-28"></div>
+    </div>
   );
 }

@@ -8,7 +8,6 @@ import { Suspense, useContext } from "react";
 import ShowSidebarSvg from "../svgs/ShowSidebarSvg";
 import { SidebarContext } from "@/store/sidebar-context";
 import { DataContext } from "@/store/data-context";
-import Skeleton from "@/fallbacks/Skeleton";
 
 export default function Sidebar() {
   const { isSidebarOpen, handleSidebarClose, handleSidebarOpen } =
@@ -35,7 +34,7 @@ export default function Sidebar() {
         <h2 className="py-6 pl-8 font-semibold tracking-widest text-md text-c-medium-grey">
           All Boards ({todoData.length})
         </h2>
-        <Suspense fallback={<Skeleton />}>
+        <Suspense>
           <ul>
             {todoData.map((board) => (
               <BoardButton link={board.id} text={board.name} key={board.id} />
