@@ -52,9 +52,6 @@ export default function Dropdown({
           ))}
         </ul>
       </div>
-      {/* {isOpen && (
-      
-      )} */}
     </div>
   );
 }

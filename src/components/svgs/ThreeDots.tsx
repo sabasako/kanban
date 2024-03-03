@@ -3,7 +3,7 @@
 import useCurrentBoard from "@/hooks/useCurrentBoard";
 import { useContext, useRef, useState } from "react";
 import EditBoardForm from "../board/EditBoardForm";
-import DeleteBoardForm from "../board/DeleteBoardForm";
+import DeleteForm from "../board/DeleteForm";
 import { DataContext } from "@/store/data-context";
 import { useRouter } from "next/navigation";
 
@@ -23,9 +23,23 @@ export default function ThreeDots() {
     if (currentBoard === undefined) return;
     deleteBoard(currentBoard.id);
 
-    if (todoData.length !== 1) {
-      router.push(`/board-?id=${todoData[0].id}`);
+    ////////////////////////////////////////////
+    // when user deletes board, react schedules state update, so we when we check todoData, we need to consider current board as part of the array
+
+    // if there is only one board left (Which is current board, that wasn't deleted yet), redirect user to home page (there is no other board to redirect to)
+    if (todoData.length === 1) {
+      router.push(`/`);
+      return;
     }
+
+    // if the current board is the last board in the array, redirect user to the previous board in the array
+    if (todoData[todoData.length - 1].id === currentBoard.id) {
+      router.push(`/board-?id=${todoData[todoData.length - 2].id}`);
+      return;
+    }
+
+    // if the current board is not the last board in the array, redirect user to the last board in the array
+    router.push(`/board-?id=${todoData[todoData.length - 1].id}`);
   }
 
   function handleOpen() {
@@ -85,10 +99,10 @@ export default function ThreeDots() {
       </svg>
       {currentBoard !== undefined && isOpen && (
         <>
-          <div className="top-[calc(var(--header-height)+8px)] fixed right-2 flex flex-col justify-start w-auto gap-2 p-4 rounded-lg shadow-lg bg-c-dark-grey ">
+          <div className="top-[calc(var(--header-height)+8px)] fixed right-2 flex flex-col justify-start w-auto gap-2 p-4 rounded-lg shadow-lg bg-c-white dark:bg-c-dark-grey ">
             <button
               onClick={handleOpen}
-              className="transition duration-300 text-start text-c-medium-grey hover:text-c-white"
+              className="transition duration-300 text-start text-c-medium-grey hover:opacity-65 dark:hover:text-c-white"
             >
               Edit Board
             </button>
@@ -113,11 +127,12 @@ export default function ThreeDots() {
         />
       )}
       {currentBoard !== undefined && (
-        <DeleteBoardForm
-          currentBoard={currentBoard}
+        <DeleteForm
           dialogRef={deleteDialogRef}
           handleClose={handleDeleteClose}
           handleDelete={handleBoardDelete}
+          heading="Delete this board?"
+          description={`Are you sure you want to delete the ‘${currentBoard.name}’ board? This action will remove all columns and tasks and cannot be reversed.`}
         />
       )}
     </div>

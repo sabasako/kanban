@@ -29,6 +29,7 @@ export default function BoardButton({ link, text }: BoardButtonProps) {
         <BoardSvg
           hoverColor="fill-c-main-purple"
           color={active ? "fill-c-white" : "fill-c-medium-grey"}
+          isActive={active}
         />
         {text}
       </Link>

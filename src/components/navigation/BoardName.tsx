@@ -1,6 +1,7 @@
 "use client";
 
 import useCurrentBoard from "@/hooks/useCurrentBoard";
+import { usePathname } from "next/navigation";
 
 export default function BoardName({
   shouldBeHiddenForSmallScreens,
@@ -8,6 +9,15 @@ export default function BoardName({
   shouldBeHiddenForSmallScreens: boolean;
 }) {
   const [currentBoard] = useCurrentBoard();
+  const path = usePathname();
+
+  if (path === "/") {
+    return (
+      <span className={`${shouldBeHiddenForSmallScreens ? "sm:hidden" : ""}`}>
+        Home
+      </span>
+    );
+  }
 
   if (currentBoard === undefined) {
     return (

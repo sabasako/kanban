@@ -24,7 +24,15 @@ type DataContextType = {
     statusId: string,
     statusName: string
   ) => void;
-  changeTaskStatus: (taskId: string, status: string) => void;
+  editTask: (
+    title: string,
+    description: string,
+    subtasks: SubtaskType[],
+    statusId: { name: string; id: string },
+    taskId: string
+  ) => void;
+  changeTaskStatus: (statusId: string, currentTask: TaskType) => void;
+  deleteTask: (id: string) => void;
   deleteBoard: (boardId: string) => void;
   changeSubtask: (taskId: string, subtaskId: string) => void;
 };
@@ -34,7 +42,9 @@ export const DataContext = createContext<DataContextType>({
   addBoard: () => {},
   editBoard: () => {},
   addTask: () => {},
+  editTask: () => {},
   changeTaskStatus: () => {},
+  deleteTask: () => {},
   deleteBoard: () => {},
   changeSubtask: () => {},
 });
@@ -131,8 +141,39 @@ export default function DataContextProvider({
     });
   }
 
+  // edits the task
+  function editTask(
+    title: string,
+    description: string,
+    subtasks: SubtaskType[],
+    status: { name: string; id: string },
+    taskId: string
+  ) {
+    setTodoData((prev) =>
+      prev.map((board) => ({
+        ...board,
+        columns: board.columns.map((column) => ({
+          ...column,
+          tasks:
+            status.id === column.id
+              ? [
+                  ...column.tasks,
+                  {
+                    title,
+                    description,
+                    subtasks,
+                    id: taskId,
+                    status: status.name,
+                  },
+                ]
+              : column.tasks.filter((task) => task.id !== taskId),
+        })),
+      }))
+    );
+  }
+
   // changes the status of a task
-  function changeTaskStatus(statusId: string, status: string) {
+  function changeTaskStatus(statusId: string, currentTask: TaskType) {
     setTodoData((prev) =>
       prev.map((board) => ({
         ...board,
@@ -140,8 +181,21 @@ export default function DataContextProvider({
           ...column,
           tasks:
             statusId === column.id
-              ? column.tasks.map((task) => ({ ...task, status }))
-              : column.tasks,
+              ? [...column.tasks, currentTask]
+              : column.tasks.filter((task) => task.id !== currentTask.id),
+        })),
+      }))
+    );
+  }
+
+  // deletes the task
+  function deleteTask(id: string) {
+    setTodoData((prev) =>
+      prev.map((board) => ({
+        ...board,
+        columns: board.columns.map((column) => ({
+          ...column,
+          tasks: column.tasks.filter((task) => task.id !== id),
         })),
       }))
     );
@@ -180,6 +234,8 @@ export default function DataContextProvider({
     addTask,
     changeTaskStatus,
     changeSubtask,
+    deleteTask,
+    editTask,
   };
 
   return (

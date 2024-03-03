@@ -2,6 +2,7 @@ import { DataContext } from "@/store/data-context";
 import { ColumnType, DataType, TaskType } from "@/types/data";
 import { useContext } from "react";
 import Dropdown from "./Dropdown";
+import TaskMenu from "./TaskMenu";
 
 type TaskInformationProps = {
   dialogRef: React.RefObject<HTMLDialogElement>;
@@ -20,7 +21,8 @@ export default function TaskInformation({
   currentColumn,
   currentBoard,
 }: TaskInformationProps) {
-  const { changeSubtask, changeTaskStatus } = useContext(DataContext);
+  const { changeSubtask, changeTaskStatus, deleteTask } =
+    useContext(DataContext);
 
   const task = tasks.find((task) => task.id === taskId);
 
@@ -46,8 +48,16 @@ export default function TaskInformation({
   }
 
   function handlePlaceholderChange(name: string, id: string) {
-    changeTaskStatus(id, name);
-    console.log(currentBoard.columns);
+    if (name === undefined) return;
+    if (currentColumn.id === id) return;
+    if (task === undefined) return;
+    changeTaskStatus(id, task);
+    handleClose();
+  }
+
+  function deleteCurrentTask() {
+    deleteTask(taskId);
+    handleClose();
   }
 
   return (
@@ -57,22 +67,16 @@ export default function TaskInformation({
       className="overflow-y-auto taskInformationMaxHeight:overflow-y-visible modal"
     >
       <div className="relative p-8 overflow-y-visible taskInformationMaxHeight:overflow-y-auto modal-box bg-c-white dark:bg-c-dark-grey">
-        <button className="absolute top-2 right-2" onClick={handleClose}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            className={`transition duration-300 size-6 stroke-c-medium-grey hover:opacity-60 active:scale-95`}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-        <h2 className="mb-2 text-lg font-bold text-c-black dark:text-c-white">
+        <div className="absolute right-8 top-9">
+          <TaskMenu
+            handleClose={handleClose}
+            currentColumn={currentColumn}
+            currentBoard={currentBoard}
+            task={task}
+            deleteTask={deleteCurrentTask}
+          />
+        </div>
+        <h2 className="mb-2 mr-6 text-lg font-bold break-words text-c-black dark:text-c-white">
           {task.title}
         </h2>
         <p>{task.description === "" ? "No description" : task.description}</p>

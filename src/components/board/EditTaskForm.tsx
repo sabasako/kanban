@@ -1,41 +1,50 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
-import { DataType, SubtaskType } from "@/types/data";
+import { ColumnType, DataType, TaskType } from "@/types/data";
 import { v4 as uuidv4 } from "uuid";
 import { DataContext } from "@/store/data-context";
 
 type AddTaskFormProps = {
   dialogRef: React.RefObject<HTMLDialogElement>;
   handleClose: () => void;
+  handleEditClose: () => void;
   currentBoard: DataType;
+  task: TaskType;
+  currentColumn: ColumnType;
 };
 
 const MAX_SUBTASK_LENGTH = 100;
 
-export default function AddTaskForm({
+export default function EditTaskForm({
   dialogRef,
   handleClose,
+  handleEditClose,
   currentBoard,
+  task,
+  currentColumn,
 }: AddTaskFormProps) {
-  const { addTask } = useContext(DataContext);
+  const { editTask } = useContext(DataContext);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [subtasks, setSubtasks] = useState<SubtaskType[]>([
-    { id: "dasdas-12321cdsf-vn12if9fsnd12", title: "", isCompleted: false },
-    { id: "dasdas-12321cdsf-doi1231dwwk", title: "", isCompleted: false },
-  ]);
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description);
+  const [subtasks, setSubtasks] = useState(task.subtasks);
   const [statusPlaceholder, setStatusPlaceholder] = useState({
-    name: "Select Column",
-    id: "dweq-12321-fdfdsf",
+    name: currentColumn.name,
+    id: currentColumn.id,
   });
-  const [statusError, setStatusError] = useState(false);
+
+  // updates initial value for states, without this useEffect, the form will not update the initial value when task changes
+  useEffect(() => {
+    setTitle(task.title);
+    setDescription(task.description);
+    setSubtasks(task.subtasks);
+    setStatusPlaceholder({ name: currentColumn.name, id: currentColumn.id });
+  }, [task, currentColumn]);
 
   function handleForm(e: React.FormEvent) {
     e.preventDefault();
 
     if (
-      statusPlaceholder.id === "dweq-12321-fdfdsf" ||
       title.length === 0 ||
       subtasks.some(
         (subtask) =>
@@ -43,29 +52,13 @@ export default function AddTaskForm({
           subtask.title.length > MAX_SUBTASK_LENGTH
       )
     ) {
-      setStatusError(true);
       return;
     }
 
-    // add task
-    addTask(
-      title,
-      description,
-      subtasks,
-      uuidv4(),
-      statusPlaceholder.id,
-      statusPlaceholder.name
-    );
+    editTask(title, description, subtasks, statusPlaceholder, task.id);
 
-    // reset form
-    setTitle("");
-    setDescription("");
-    setSubtasks([
-      { id: uuidv4(), title: "", isCompleted: false },
-      { id: uuidv4(), title: "", isCompleted: false },
-    ]);
-    setStatusPlaceholder({ name: "Select Column", id: "dweq-12321-fdfdsf" });
     handleClose();
+    handleEditClose();
   }
 
   function handleSubtaskChange(id: string, value: string) {
@@ -96,7 +89,6 @@ export default function AddTaskForm({
 
   function handlePlaceholderChange(name: string, id: string) {
     setStatusPlaceholder({ name, id });
-    setStatusError(false);
   }
 
   return (
@@ -106,7 +98,7 @@ export default function AddTaskForm({
       className="overflow-y-auto taskMaxHeight:overflow-y-visible modal"
     >
       <div className="relative p-8 overflow-y-visible taskMaxHeight:overflow-y-auto modal-box bg-c-white dark:bg-c-dark-grey">
-        <button className="absolute top-2 right-2" onClick={handleClose}>
+        <button className="absolute top-2 right-2" onClick={handleEditClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -122,7 +114,7 @@ export default function AddTaskForm({
           </svg>
         </button>
         <h3 className="mb-6 text-lg font-bold text-c-black dark:text-c-white">
-          Add New Task
+          Edit Task
         </h3>
         <form action="" onSubmit={handleForm}>
           <div className="flex flex-col gap-2">
@@ -219,9 +211,6 @@ export default function AddTaskForm({
             <p className="font-bold text-c-medium-grey dark:text-c-white">
               Status
             </p>
-            {statusError && (
-              <p className="text-c-main-red">Please select a column</p>
-            )}
             <Dropdown
               onPlaceholderChange={handlePlaceholderChange}
               placeholder={statusPlaceholder}
@@ -233,12 +222,12 @@ export default function AddTaskForm({
             className="w-full py-3 mt-6 font-bold duration-300 rounded-full transtion hover:bg-c-main-purple-hover active:scale-95 bg-c-main-purple text-c-white"
             type="submit"
           >
-            Create Task
+            Save Changes
           </button>
         </form>
       </div>
       <form method="dialog" className="modal-backdrop">
-        <button id="closeButton" onClick={handleClose}>
+        <button id="closeButton" onClick={handleEditClose}>
           close
         </button>
       </form>

@@ -28,8 +28,15 @@ export default function AddBoardForm({
     e.preventDefault();
 
     // checks if the board name and column titles are valid
-    if (boardName.length > MAX_BOARDNAME_LENGTH) return;
-    if (columns.some((col) => col.value.length > MAX_COLUMNNAME_LENGTH)) return;
+    if (boardName.length > MAX_BOARDNAME_LENGTH || boardName.length === 0)
+      return;
+    if (
+      columns.some(
+        (col) =>
+          col.value.length > MAX_COLUMNNAME_LENGTH || col.value.length === 0
+      )
+    )
+      return;
 
     // submits form based on if user is editing or adding new board
     addBoard(boardName, columns, boardId);

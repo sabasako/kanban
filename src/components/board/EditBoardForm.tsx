@@ -33,8 +33,15 @@ export default function EditBoardForm({
     e.preventDefault();
 
     // checks if the board name and column titles are valid
-    if (boardName.length > MAX_BOARDNAME_LENGTH) return;
-    if (columns.some((col) => col.name.length > MAX_COLUMNNAME_LENGTH)) return;
+    if (boardName.length > MAX_BOARDNAME_LENGTH || boardName.length === 0)
+      return;
+    if (
+      columns.some(
+        (col) =>
+          col.name.length > MAX_COLUMNNAME_LENGTH || col.name.length === 0
+      )
+    )
+      return;
 
     // submits edited form
     editBoard(currentBoard, boardName, columns);

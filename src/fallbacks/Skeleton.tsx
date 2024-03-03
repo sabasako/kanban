@@ -1,7 +1,7 @@
 export default function Skeleton() {
   return (
     <>
-      <h1 className="text-center text-4xl">Loadin...</h1>
+      <h1 className="text-4xl text-center">Loading...</h1>
     </>
   );
 }
