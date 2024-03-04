@@ -4,8 +4,6 @@ import { DataType } from "@/types/data";
 import {
   DndContext,
   DragEndEvent,
-  DragMoveEvent,
-  DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
@@ -15,7 +13,7 @@ import {
 } from "@dnd-kit/core";
 // prettier-ignore
 import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordinates,} from "@dnd-kit/sortable";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Column from "./Column";
 
 export default function Board({ currentBoard }: { currentBoard: DataType }) {
