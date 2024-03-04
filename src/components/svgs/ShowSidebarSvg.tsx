@@ -8,7 +8,7 @@ export default function ShowSidebarSvg({
   return (
     <button
       onClick={onClick}
-      className={`fixed left-0 px-8 py-6 transition duration-300 rounded-r-full cursor-pointer bottom-12 hover:bg-c-main-purple-hover active:scale-95 bg-c-main-purple sm:hidden ${
+      className={`fixed left-0 px-8 py-6 transition duration-300 rounded-r-full cursor-pointer bottom-12 hover:bg-c-main-purple-hover active:scale-95 bg-c-main-purple z-10 sm:hidden ${
         isSidebarOpen
           ? "opacity-0 pointer-events-none -translate-x-16"
           : "opacity-100 pointer-events-auto translate-x-0"

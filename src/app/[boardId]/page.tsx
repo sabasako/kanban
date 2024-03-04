@@ -1,6 +1,6 @@
 "use client";
 
-import Column from "@/components/board/Column";
+import Board from "@/components/board/Board";
 import EditBoardForm from "@/components/board/EditBoardForm";
 import EmptyButton from "@/components/button/EmptyButton";
 import { DataContext } from "@/store/data-context";
@@ -68,17 +68,12 @@ export default function BoardPage({
   return (
     <main
       className={`${
-        isSidebarOpen ? "pl-[calc(var(--sidebar-width)+24px)] sm:pl-4" : "pl-4"
-      } pt-[calc(var(--header-height)+24px)] flex gap-6 overflow-x-auto overflow-y-auto h-[calc(100lvh)] transition-[padding] duration-300`}
+        isSidebarOpen
+          ? "ml-[calc(var(--sidebar-width))] pl-6 sm:pl-4 sm:ml-0"
+          : "pl-4"
+      } pt-[calc(var(--header-height)+24px)] flex gap-6 overflow-x-auto overflow-y-auto h-[calc(100lvh)] transition-[margin] duration-300`}
     >
-      {currentBoard.columns.map((column, index) => (
-        <Column
-          currentBoard={currentBoard}
-          column={column}
-          index={index}
-          key={column.id}
-        />
-      ))}
+      <Board currentBoard={currentBoard} />
       <button
         onClick={handleOpen}
         className="flex-shrink-0 text-c-medium-grey text-2xl flex self-stretch justify-center items-center bg-gradient-to-t  from-[#e9effa8e] to-[#e9effa2c] dark:from-[#2B2C3775] dark:to-[#2b2c3721] w-72 rounded-2xl font-bold cursor-pointer mt-12 mb-6 transition duration-300 hover:text-c-dark-grey hover:dark:text-c-light-grey active:scale-95 "

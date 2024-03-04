@@ -1,6 +1,8 @@
 import { ColumnType, DataType } from "@/types/data";
 import { useRef, useState } from "react";
 import TaskInformation from "./TaskInformation";
+import TaskItem from "./TaskItem";
+import { SortableContext } from "@dnd-kit/sortable";
 
 export default function Task({
   column,
@@ -24,21 +26,13 @@ export default function Task({
 
   return (
     <ul className="mt-6">
-      {column.tasks.map((task) => (
-        <li
-          key={task.id}
-          onClick={() => handleOpen(task.id)}
-          className="flex flex-col justify-center gap-2 px-4 py-6 mb-5 transition duration-300 cursor-pointer w-72 bg-c-white dark:bg-c-dark-grey rounded-2xl hover:opacity-60"
-        >
-          <span className="break-words text-md text-c-black dark:text-c-white ">
-            {task.title}
-          </span>
-          <span className="text-sm text-c-medium-grey">
-            {task.subtasks.filter((subtask) => subtask.isCompleted).length} of{" "}
-            {task.subtasks.length} substasks
-          </span>
-        </li>
-      ))}
+      <SortableContext
+        items={currentBoard.columns.flatMap((item) => item.tasks)}
+      >
+        {column.tasks.map((task) => (
+          <TaskItem key={task.id} task={task} handleOpen={handleOpen} />
+        ))}
+      </SortableContext>
       <TaskInformation
         taskId={activeId}
         tasks={column.tasks}

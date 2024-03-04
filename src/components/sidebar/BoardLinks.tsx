@@ -1,5 +1,6 @@
 import {
   DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
@@ -20,8 +21,7 @@ export default function BoardLinks() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        tolerance: 5,
-        delay: 200,
+        distance: 5,
       },
     }),
     useSensor(TouchSensor),
@@ -31,7 +31,7 @@ export default function BoardLinks() {
   );
   const { dragBoardLinks, todoData: data } = useContext(DataContext);
 
-  function handleDragEnd(event: any) {
+  function handleDragEnd(event: DragEndEvent) {
     dragBoardLinks(event);
   }
 

@@ -4,10 +4,15 @@ import { createContext, useState } from "react";
 import data from "@/data.json";
 import { DataType, SubtaskType, TaskType } from "@/types/data";
 import { arrayMove } from "@dnd-kit/sortable";
+import { DragEndEvent } from "@dnd-kit/core";
 
 type DataContextType = {
-  dragBoardLinks: (event: any) => void;
   todoData: DataType[];
+
+  dragBoardLinks: (event: any) => void;
+  dragColumn: (event: DragEndEvent, currentBoardId: string) => void;
+  dragLinkIntoSameColumn: (event: DragEndEvent, currentBoard: DataType) => void;
+
   addBoard: (
     boardName: string,
     columns: { value: string; id: string }[],
@@ -40,8 +45,12 @@ type DataContextType = {
 };
 
 export const DataContext = createContext<DataContextType>({
-  dragBoardLinks: () => {},
   todoData: data,
+
+  dragBoardLinks: () => {},
+  dragColumn: () => {},
+  dragLinkIntoSameColumn: () => {},
+
   addBoard: () => {},
   editBoard: () => {},
   addTask: () => {},
@@ -59,7 +68,7 @@ export default function DataContextProvider({
 }) {
   const [todoData, setTodoData] = useState(data);
 
-  function dragBoardLinks(event: any) {
+  function dragBoardLinks(event: DragEndEvent) {
     const { active, over } = event;
 
     if (!active || !over) return;
@@ -72,6 +81,134 @@ export default function DataContextProvider({
 
       return arrayMove(prev, originalPosition, newPosition);
     });
+  }
+
+  function dragColumn(event: DragEndEvent, currentBoardId: string) {
+    const { active, over } = event;
+
+    if (!active || !over) return;
+    if (active?.id === over?.id) return;
+
+    setTodoData((prev) => {
+      const currentBoard = prev.find((board) => board.id === currentBoardId);
+      if (!currentBoard) return prev;
+
+      const originalPosition = currentBoard.columns.findIndex(
+        (column) => column.id === active.id
+      );
+      const newPosition = currentBoard.columns.findIndex(
+        (column) => column.id === over.id
+      );
+
+      const newColumns = arrayMove(
+        currentBoard.columns,
+        originalPosition,
+        newPosition
+      );
+
+      const newData = prev.map((board) => ({
+        ...board,
+        columns: board.id === currentBoardId ? newColumns : board.columns,
+      }));
+
+      return newData;
+    });
+  }
+
+  function dragLinkIntoSameColumn(event: DragEndEvent, currentBoard: DataType) {
+    if (!currentBoard) return;
+    const { active, over } = event;
+    if (!over || !active || !currentBoard) return;
+    if (active?.id === over?.id) return;
+
+    // finds the column which contains active task
+    const activeColumn = currentBoard?.columns.find((col) =>
+      col.tasks.find((task) => task.id === active.id)
+    );
+
+    // finds the column where the task is being dragged over
+    const overColumn = currentBoard?.columns.find((col) =>
+      col.tasks.find((task) => task.id === over.id)
+    );
+
+    // If any container is undefined, return
+    if (!activeColumn || !overColumn) return;
+
+    // finds the active task
+    const activeTask = activeColumn?.tasks.find(
+      (task) => task.id === active.id
+    );
+
+    // finds the index of the active task
+    const activeTaskIndex = activeColumn?.tasks.findIndex(
+      (task) => task.id === active.id
+    );
+
+    // finds destination (over) task index
+    const overTaskIndex = overColumn.tasks.findIndex(
+      (task) => task.id === over.id
+    );
+
+    // if user dragged into same container
+    if (activeColumn.id === overColumn.id) {
+      const originalPosition = activeTaskIndex;
+      const newPosition = overTaskIndex;
+
+      const newTasks = arrayMove(
+        activeColumn.tasks,
+        originalPosition,
+        newPosition
+      );
+
+      setTodoData((prev) => {
+        const newData = prev.map((board) => ({
+          ...board,
+          columns:
+            board.id === currentBoard.id
+              ? board.columns.map((col) => ({
+                  ...col,
+                  tasks: col.id === overColumn.id ? newTasks : col.tasks,
+                }))
+              : board.columns,
+        }));
+
+        return newData;
+      });
+    } else {
+      if (!activeTask) return;
+      const filteredTasks = activeColumn.tasks.filter(
+        (task) => task.id !== activeTask?.id
+      );
+      const newTasks = [
+        ...overColumn.tasks.slice(0, overTaskIndex),
+        activeTask,
+        ...overColumn.tasks.slice(overTaskIndex),
+      ];
+
+      setTodoData((prev) =>
+        prev.map((board) => ({
+          ...board,
+          columns:
+            board.id === currentBoard.id
+              ? board.columns.map((col) => {
+                  if (col.id === activeColumn.id) {
+                    return {
+                      ...col,
+                      tasks: filteredTasks,
+                    };
+                  } else if (col.id === overColumn.id) {
+                    return {
+                      ...col,
+                      tasks: newTasks,
+                    };
+                  } else {
+                    return col;
+                  }
+                })
+              : board.columns,
+        }))
+      );
+    }
   }
 
   // deletes the board
@@ -245,8 +382,12 @@ export default function DataContextProvider({
   }
 
   const dataValue = {
-    dragBoardLinks,
     todoData,
+
+    dragBoardLinks,
+    dragColumn,
+    dragLinkIntoSameColumn,
+
     deleteBoard,
     addBoard,
     editBoard,
