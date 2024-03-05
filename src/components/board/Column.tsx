@@ -31,9 +31,9 @@ export default function Column({
     <div
       {...attributes}
       ref={setNodeRef}
-      style={{ transition, transform: CSS.Transform.toString(transform) }}
+      style={{ transition, transform: CSS.Translate.toString(transform) }}
       className={`flex-shrink-0 w-72 touch-none cursor-auto ${
-        isDragging ? "opacity-70 z-30" : "z-"
+        isDragging ? "opacity-70 z-30" : ""
       }`}
     >
       <div className="flex justify-between items-center">

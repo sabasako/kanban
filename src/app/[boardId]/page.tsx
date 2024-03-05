@@ -71,7 +71,7 @@ export default function BoardPage({
         isSidebarOpen
           ? "ml-[calc(var(--sidebar-width))] pl-6 sm:pl-4 sm:ml-0"
           : "pl-4"
-      } pt-[calc(var(--header-height)+24px)] flex gap-6 overflow-x-auto overflow-y-auto h-[calc(100lvh)] transition-[margin] duration-300`}
+      } pt-[calc(var(--header-height)+24px)] pb-10 flex gap-6 overflow-x-auto  overflow-y-auto h-[calc(100lvh)] transition-[margin] duration-300`}
     >
       <Board currentBoard={currentBoard} />
       <button
