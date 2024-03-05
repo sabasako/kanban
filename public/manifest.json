@@ -1,0 +1,17 @@
+{
+  "theme_color": "#635fc7",
+  "background_color": "#20212c",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Kanban",
+  "short_name": "Kanban",
+  "description": "Kanban - task management app",
+  "icons": [
+    {
+      "src": "/public/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -9,8 +9,39 @@ import DataContextProvider from "@/store/data-context";
 const jakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Kanban - Task Management App",
-  description: "Manage your tasks with ease using Kanban.",
+  applicationName: "Kanban",
+  title: {
+    default: "Kanban default",
+    template: "Kanban template",
+  },
+  description: "Kanban - task management application",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Kanban",
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Kanban",
+    title: {
+      default: "Kanban default",
+      template: "Kanban template",
+    },
+    description: "Kanban - task management application",
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: "Kanban default",
+      template: "Kanban template",
+    },
+    description: "Kanban - task management application",
+  },
 };
 
 export default function RootLayout({
