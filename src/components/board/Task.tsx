@@ -2,7 +2,7 @@ import { ColumnType, DataType } from "@/types/data";
 import { useRef, useState } from "react";
 import TaskInformation from "./TaskInformation";
 import TaskItem from "./TaskItem";
-import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext } from "@dnd-kit/sortable";
 
 export default function Task({
   column,
