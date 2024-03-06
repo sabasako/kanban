@@ -2,7 +2,7 @@ import {
   DndContext,
   DragEndEvent,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
   TouchSensor,
   closestCorners,
   useSensor,
@@ -19,12 +19,17 @@ import { DataContext } from "@/store/data-context";
 
 export default function BoardLinks() {
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: 8,
       },
     }),
-    useSensor(TouchSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -43,7 +48,7 @@ export default function BoardLinks() {
       collisionDetection={closestCorners}
     >
       <SortableContext items={data} strategy={verticalListSortingStrategy}>
-        <ul className="overflow-hidden">
+        <ul className="">
           {data.map((board) => (
             <BoardButton link={board.id} text={board.name} key={board.id} />
           ))}
