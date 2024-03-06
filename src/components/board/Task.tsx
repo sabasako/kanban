@@ -2,7 +2,10 @@ import { ColumnType, DataType } from "@/types/data";
 import { useRef, useState } from "react";
 import TaskInformation from "./TaskInformation";
 import TaskItem from "./TaskItem";
-import { SortableContext } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 export default function Task({
   column,
@@ -26,7 +29,10 @@ export default function Task({
 
   return (
     <ul className="mt-6 space-y-5">
-      <SortableContext items={column.tasks.map((task) => task.id)}>
+      <SortableContext
+        items={column.tasks}
+        strategy={verticalListSortingStrategy}
+      >
         {column.tasks.map((task) => (
           <TaskItem key={task.id} task={task} handleOpen={handleOpen} />
         ))}

@@ -32,7 +32,7 @@ export default function Column({
       {...attributes}
       ref={setNodeRef}
       style={{ transition, transform: CSS.Translate.toString(transform) }}
-      className={`flex-shrink-0 w-72 touch-none cursor-auto ${
+      className={`flex-shrink-0 w-72 cursor-auto ${
         isDragging ? "opacity-70 z-30" : ""
       }`}
     >

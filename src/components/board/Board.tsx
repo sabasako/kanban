@@ -5,6 +5,7 @@ import {
   DndContext,
   DragEndEvent,
   KeyboardSensor,
+  MouseSensor,
   PointerSensor,
   TouchSensor,
   closestCorners,
@@ -20,12 +21,17 @@ export default function Board({ currentBoard }: { currentBoard: DataType }) {
   const { dragColumn, dragLinkIntoSameColumn } = useContext(DataContext);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: 8,
       },
     }),
-    useSensor(TouchSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
