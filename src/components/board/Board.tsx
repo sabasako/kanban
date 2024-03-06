@@ -6,7 +6,6 @@ import {
   DragEndEvent,
   KeyboardSensor,
   MouseSensor,
-  PointerSensor,
   TouchSensor,
   closestCorners,
   useSensor,
