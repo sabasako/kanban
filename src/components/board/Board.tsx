@@ -1,9 +1,12 @@
 // prettier-ignore
 import { DataContext } from "@/store/data-context";
-import { DataType } from "@/types/data";
+import { ColumnType, DataType, TaskType } from "@/types/data";
 import {
   DndContext,
   DragEndEvent,
+  DragOverEvent,
+  DragOverlay,
+  DragStartEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
@@ -13,11 +16,16 @@ import {
 } from "@dnd-kit/core";
 // prettier-ignore
 import { SortableContext, horizontalListSortingStrategy, sortableKeyboardCoordinates,} from "@dnd-kit/sortable";
-import { useContext } from "react";
-import Column from "./Column";
+import { useContext, useState } from "react";
+import { Column } from "./Column";
+import { createPortal } from "react-dom";
+import TaskItem from "./TaskItem";
 
 export default function Board({ currentBoard }: { currentBoard: DataType }) {
-  const { dragColumn, dragLinkIntoSameColumn } = useContext(DataContext);
+  const { dragColumn, dragTask } = useContext(DataContext);
+
+  const [activeTask, setActiveTask] = useState<TaskType | null>(null);
+  const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -36,24 +44,42 @@ export default function Board({ currentBoard }: { currentBoard: DataType }) {
     })
   );
 
+  function handleDragStart(event: DragStartEvent) {
+    if (event.active.data.current?.type === "task") {
+      setActiveTask(event.active.data.current?.task);
+    } else if (event.active.data.current?.type === "column") {
+      setActiveColumn(event.active.data.current?.column);
+    }
+  }
+
+  function handleDragOver(event: DragOverEvent) {
+    const { over, active } = event;
+    if (!over || !active || active?.id === over?.id) return;
+
+    dragTask(event, currentBoard);
+  }
+
   function handleDragEnd(event: DragEndEvent) {
-    if (!currentBoard) return;
+    setActiveColumn(null);
+    setActiveTask(null);
+
     const { active, over } = event;
     if (!over || !active || !currentBoard) return;
+
     if (active?.id === over?.id) return;
 
-    // Executes code when user drags column, not task
-    if (currentBoard.columns.some((col) => col.id === active.id)) {
-      dragColumn(event, currentBoard.id);
-    } else {
-      dragLinkIntoSameColumn(event, currentBoard);
-    }
+    // Returns if the active item is a task, i handle that case on drag over
+    if (active.data.current?.type !== "column") return;
+
+    dragColumn(event, currentBoard.id);
   }
 
   return (
     <DndContext
       id="fdjoiioqpgh90-ujls913jki-fwejoil123"
       sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       collisionDetection={closestCorners}
     >
@@ -70,6 +96,23 @@ export default function Board({ currentBoard }: { currentBoard: DataType }) {
           />
         ))}
       </SortableContext>
+      {/* Checks if we aran't on the server and then adds drag overlay if user is dragging either column or task item */}
+      {typeof window !== "undefined" &&
+        createPortal(
+          <DragOverlay>
+            {activeTask && (
+              <TaskItem task={activeTask} handleOpen={() => null} />
+            )}
+            {activeColumn && (
+              <Column
+                currentBoard={currentBoard}
+                column={activeColumn}
+                index={1}
+              />
+            )}
+          </DragOverlay>,
+          document.body
+        )}
     </DndContext>
   );
 }

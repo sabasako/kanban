@@ -1,12 +1,13 @@
 import { ColumnType, DataType } from "@/types/data";
-import Task from "./Task";
+import { Task } from "./Task";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { memo } from "react";
 
 // prettier-ignore
 const colors = [ "bg-cyan-500", "bg-red-500", "bg-green-500", "bg-yellow-500", "bg-purple-500", "bg-pink-500", "bg-blue-500", "bg-indigo-500", "bg-gray-500",];
 
-export default function Column({
+export const Column = memo(function Column({
   currentBoard,
   column,
   index,
@@ -24,7 +25,10 @@ export default function Column({
     listeners,
   } = useSortable({
     id: column.id,
-    data: column,
+    data: {
+      type: "column",
+      column,
+    },
   });
 
   return (
@@ -33,11 +37,17 @@ export default function Column({
       ref={setNodeRef}
       style={{ transition, transform: CSS.Translate.toString(transform) }}
       className={`flex-shrink-0 w-72 cursor-auto ${
-        isDragging ? "opacity-70 z-30" : ""
+        isDragging
+          ? "opacity-50 z-30 bg-c-white dark:bg-c-dark-grey rounded-3xl"
+          : ""
       }`}
     >
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
+      <div
+        className={`flex justify-between items-center ${
+          isDragging ? "opacity-0" : ""
+        }`}
+      >
+        <div className={`flex gap-2 items-center`}>
           <div
             className={`size-4 rounded-full ${
               colors[index] || colors[Math.floor(Math.random() * colors.length)]
@@ -63,7 +73,12 @@ export default function Column({
           />
         </svg>
       </div>
-      <Task currentBoard={currentBoard} column={column} key={column.name} />
+      <Task
+        isDragging={isDragging}
+        currentBoard={currentBoard}
+        column={column}
+        key={column.name}
+      />
     </div>
   );
-}
+});

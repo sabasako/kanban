@@ -4,14 +4,14 @@ import { createContext, useState } from "react";
 import data from "@/data.json";
 import { DataType, SubtaskType, TaskType } from "@/types/data";
 import { arrayMove } from "@dnd-kit/sortable";
-import { DragEndEvent } from "@dnd-kit/core";
+import { DragEndEvent, DragMoveEvent } from "@dnd-kit/core";
 
 type DataContextType = {
   todoData: DataType[];
 
   dragBoardLinks: (event: any) => void;
   dragColumn: (event: DragEndEvent, currentBoardId: string) => void;
-  dragLinkIntoSameColumn: (event: DragEndEvent, currentBoard: DataType) => void;
+  dragTask: (event: DragMoveEvent, currentBoard: DataType) => void;
 
   addBoard: (
     boardName: string,
@@ -49,7 +49,7 @@ export const DataContext = createContext<DataContextType>({
 
   dragBoardLinks: () => {},
   dragColumn: () => {},
-  dragLinkIntoSameColumn: () => {},
+  dragTask: () => {},
 
   addBoard: () => {},
   editBoard: () => {},
@@ -68,6 +68,7 @@ export default function DataContextProvider({
 }) {
   const [todoData, setTodoData] = useState(data);
 
+  // handles drag and drop of board links
   function dragBoardLinks(event: DragEndEvent) {
     const { active, over } = event;
 
@@ -83,6 +84,7 @@ export default function DataContextProvider({
     });
   }
 
+  // handles drag and drop of columns
   function dragColumn(event: DragEndEvent, currentBoardId: string) {
     const { active, over } = event;
 
@@ -115,80 +117,72 @@ export default function DataContextProvider({
     });
   }
 
-  function dragLinkIntoSameColumn(event: DragEndEvent, currentBoard: DataType) {
-    if (!currentBoard) return;
-    const { active, over } = event;
-    if (!over || !active || !currentBoard) return;
-    if (active?.id === over?.id) return;
+  // handles drag and drop of tasks
+  function dragTask(event: DragMoveEvent, currentBoard: DataType) {
+    const activeId = event.active.id;
+    const overId = event.over?.id;
 
-    // finds the column which contains active task
+    if (!event.active || !event.over) return;
+
+    const isActiveATask = event.active.data.current?.type === "task";
+    const isOverColumn = event.over.data.current?.type === "column";
+    const isColumnEmpty = event.over.data.current?.column?.tasks?.length === 0;
+
+    // If none of the active items are tasks, then it's a column, therefore stop function (we handle that case in handleDragEnd)
+    if (!isActiveATask) return;
+
     const activeColumn = currentBoard?.columns.find((col) =>
-      col.tasks.find((task) => task.id === active.id)
+      col.tasks.find((task) => task.id === activeId)
     );
-
-    // finds the column where the task is being dragged over
     const overColumn = currentBoard?.columns.find((col) =>
-      col.tasks.find((task) => task.id === over.id)
+      col.tasks.find((task) => task.id === overId)
     );
 
-    // If any container is undefined, return
-    if (!activeColumn || !overColumn) return;
+    const isSameColumn = activeColumn?.id === overColumn?.id;
 
-    // finds the active task
-    const activeTask = activeColumn?.tasks.find(
-      (task) => task.id === active.id
-    );
-
-    // finds the index of the active task
-    const activeTaskIndex = activeColumn?.tasks.findIndex(
-      (task) => task.id === active.id
-    );
-
-    // finds destination (over) task index
-    const overTaskIndex = overColumn.tasks.findIndex(
-      (task) => task.id === over.id
-    );
-
-    console.log(overTaskIndex);
-
-    // if user dragged into same container
-    if (activeColumn.id === overColumn.id) {
-      const originalPosition = activeTaskIndex;
-      const newPosition = overTaskIndex;
-
-      const newTasks = arrayMove(
-        activeColumn.tasks,
-        originalPosition,
-        newPosition
-      );
-
+    // If user is draggin task onto same column
+    if (isSameColumn) {
       setTodoData((prev) => {
-        const newData = prev.map((board) => ({
+        if (!activeColumn || !overColumn) return prev;
+
+        const activeIndex = activeColumn.tasks.findIndex(
+          (task) => task.id === activeId
+        );
+        const overIndex = overColumn.tasks.findIndex(
+          (task) => task.id === overId
+        );
+
+        const newTasks = arrayMove(activeColumn.tasks, activeIndex, overIndex);
+
+        return prev.map((board) => ({
           ...board,
           columns:
             board.id === currentBoard.id
               ? board.columns.map((col) => ({
                   ...col,
-                  tasks: col.id === overColumn.id ? newTasks : col.tasks,
+                  tasks: col.id === activeColumn.id ? newTasks : col.tasks,
                 }))
               : board.columns,
         }));
-
-        return newData;
       });
-    } else {
-      if (!activeTask) return;
-      const filteredTasks = activeColumn.tasks.filter(
-        (task) => task.id !== activeTask?.id
-      );
-      const newTasks = [
-        ...overColumn.tasks.slice(0, overTaskIndex),
-        activeTask,
-        ...overColumn.tasks.slice(overTaskIndex),
-      ];
+    } else if (!isSameColumn && !isColumnEmpty) {
+      // If user is draggin task onto different column
+      setTodoData((prev) => {
+        if (!activeColumn || !overColumn) return prev;
+        const overIndex = overColumn.tasks.findIndex(
+          (task) => task.id === overId
+        );
 
-      setTodoData((prev) =>
-        prev.map((board) => ({
+        const filteredTasks = activeColumn.tasks.filter(
+          (task) => task.id !== activeId
+        );
+        const newTasks = [
+          ...overColumn.tasks.slice(0, overIndex),
+          event.active.data.current?.task,
+          ...overColumn.tasks.slice(overIndex),
+        ];
+
+        return prev.map((board) => ({
           ...board,
           columns:
             board.id === currentBoard.id
@@ -208,8 +202,45 @@ export default function DataContextProvider({
                   }
                 })
               : board.columns,
-        }))
-      );
+        }));
+      });
+    } else if (isOverColumn && isColumnEmpty) {
+      // if user is draggin task onto different column, which is empty
+      setTodoData((prev) => {
+        // Existing method of finding overColumn will be wrong, because i found it using over tasks, which isn't case here, because there are no tasks in this column. Now overId will belong to over column not over tasks
+        const newOverColumn = currentBoard.columns.find(
+          (col) => col.id === overId
+        );
+
+        if (!activeColumn || !newOverColumn) return prev;
+
+        const filteredTasks = activeColumn.tasks.filter(
+          (task) => task.id !== activeId
+        );
+        const newTask = event.active.data.current?.task;
+
+        return prev.map((board) => ({
+          ...board,
+          columns:
+            board.id === currentBoard.id
+              ? board.columns.map((col) => {
+                  if (col.id === activeColumn.id) {
+                    return {
+                      ...col,
+                      tasks: filteredTasks,
+                    };
+                  } else if (col.id === newOverColumn.id) {
+                    return {
+                      ...col,
+                      tasks: [newTask],
+                    };
+                  } else {
+                    return col;
+                  }
+                })
+              : board.columns,
+        }));
+      });
     }
   }
 
@@ -388,7 +419,7 @@ export default function DataContextProvider({
 
     dragBoardLinks,
     dragColumn,
-    dragLinkIntoSameColumn,
+    dragTask,
 
     deleteBoard,
     addBoard,
