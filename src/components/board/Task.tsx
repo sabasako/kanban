@@ -28,7 +28,7 @@ export default function Task({
   }
 
   return (
-    <ul className="mt-6 space-y-5">
+    <ul className="mt-6 space-y-5 pb-24">
       <SortableContext
         items={column.tasks}
         strategy={verticalListSortingStrategy}

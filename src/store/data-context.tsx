@@ -149,6 +149,8 @@ export default function DataContextProvider({
       (task) => task.id === over.id
     );
 
+    console.log(overTaskIndex);
+
     // if user dragged into same container
     if (activeColumn.id === overColumn.id) {
       const originalPosition = activeTaskIndex;
