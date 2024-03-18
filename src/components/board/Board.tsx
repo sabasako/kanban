@@ -74,6 +74,8 @@ export default function Board({ currentBoard }: { currentBoard: DataType }) {
     dragColumn(event, currentBoard.id);
   }
 
+  console.log("board");
+
   return (
     <DndContext
       id="fdjoiioqpgh90-ujls913jki-fwejoil123"
@@ -87,13 +89,8 @@ export default function Board({ currentBoard }: { currentBoard: DataType }) {
         items={currentBoard.columns}
         strategy={horizontalListSortingStrategy}
       >
-        {currentBoard.columns.map((column, index) => (
-          <Column
-            currentBoard={currentBoard}
-            column={column}
-            index={index}
-            key={column.id}
-          />
+        {currentBoard.columns.map((column) => (
+          <Column currentBoard={currentBoard} column={column} key={column.id} />
         ))}
       </SortableContext>
       {/* Checks if we aran't on the server and then adds drag overlay if user is dragging either column or task item */}
@@ -104,11 +101,7 @@ export default function Board({ currentBoard }: { currentBoard: DataType }) {
               <TaskItem task={activeTask} handleOpen={() => null} />
             )}
             {activeColumn && (
-              <Column
-                currentBoard={currentBoard}
-                column={activeColumn}
-                index={1}
-              />
+              <Column currentBoard={currentBoard} column={activeColumn} />
             )}
           </DragOverlay>,
           document.body

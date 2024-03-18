@@ -21,3 +21,12 @@
     @apply box-border p-0 m-0;
   }
 }
+
+@layer components {
+  input[type="color"]::-webkit-color-swatch {
+    @apply border-transparent;
+  }
+  input[type="color"]::-moz-color-swatch {
+    @apply border-transparent;
+  }
+}

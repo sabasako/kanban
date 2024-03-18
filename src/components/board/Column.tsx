@@ -3,18 +3,15 @@ import { Task } from "./Task";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { memo } from "react";
-
-// prettier-ignore
-const colors = [ "bg-cyan-500", "bg-red-500", "bg-green-500", "bg-yellow-500", "bg-purple-500", "bg-pink-500", "bg-blue-500", "bg-indigo-500", "bg-gray-500",];
+import ColorPicker from "../button/ColorPicker";
+import ColorContextProvider from "@/store/color-context";
 
 export const Column = memo(function Column({
   currentBoard,
   column,
-  index,
 }: {
   currentBoard: DataType;
   column: ColumnType;
-  index: number;
 }) {
   const {
     attributes,
@@ -30,6 +27,8 @@ export const Column = memo(function Column({
       column,
     },
   });
+
+  console.log("Column rendered");
 
   return (
     <div
@@ -48,11 +47,9 @@ export const Column = memo(function Column({
         }`}
       >
         <div className={`flex gap-2 items-center`}>
-          <div
-            className={`size-4 rounded-full ${
-              colors[index] || colors[Math.floor(Math.random() * colors.length)]
-            }`}
-          ></div>
+          <ColorContextProvider>
+            <ColorPicker columnId={column.id} />
+          </ColorContextProvider>
           <span className="text-c-medium-grey max-w-60 text-base tracking-[0.2em] break-words overflow-ellipsis">
             {column.name} ({column.tasks.length})
           </span>
