@@ -26,7 +26,7 @@ export default function BoardLinks() {
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 150,
+        delay: 50,
         tolerance: 8,
       },
     }),
