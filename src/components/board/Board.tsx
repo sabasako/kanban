@@ -74,8 +74,6 @@ export default function Board({ currentBoard }: { currentBoard: DataType }) {
     dragColumn(event, currentBoard.id);
   }
 
-  console.log("board");
-
   return (
     <DndContext
       id="fdjoiioqpgh90-ujls913jki-fwejoil123"

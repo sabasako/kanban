@@ -5,6 +5,7 @@ import data from "@/data/data.json";
 import { DataType, SubtaskType, TaskType } from "@/types/data";
 import { arrayMove } from "@dnd-kit/sortable";
 import { DragEndEvent, DragMoveEvent } from "@dnd-kit/core";
+import { produce } from "immer";
 
 // prettier-ignore
 export const colors = [ "#ef4444", "#1d4ed8", "#84cc16", "#f97316", "#d946ef", "#082f49", "#f59e0b", "#fafaf9", "#422006", "#facc15", "#86efac", "#166534", "#b91c1c", "#0f766e", "#6d28d9", "#db2777", "#6d28d9", "#4c0519",];

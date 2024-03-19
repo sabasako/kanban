@@ -28,8 +28,6 @@ export const Column = memo(function Column({
     },
   });
 
-  console.log("Column rendered");
-
   return (
     <div
       {...attributes}

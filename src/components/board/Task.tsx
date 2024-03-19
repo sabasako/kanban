@@ -29,8 +29,6 @@ export const Task = memo(function Task({
     diaologRef.current?.close();
   }
 
-  console.log("Task rendered");
-
   return (
     <ul className={`mt-6 space-y-5 pb-24 ${isDragging ? "opacity-0" : ""}`}>
       <SortableContext
