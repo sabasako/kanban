@@ -3,6 +3,7 @@ import AddTask from "../button/AddTask";
 import ShowSidebar from "../button/ShowSidebar";
 import ThreeDots from "../svgs/ThreeDots";
 import BoardName from "./BoardName";
+import { UserButton } from "@clerk/nextjs";
 
 export default function MainHeader() {
   return (
@@ -21,6 +22,9 @@ export default function MainHeader() {
           </Suspense>
         </div>
       </nav>
+      <div className="m-2 mr-6">
+        <UserButton />
+      </div>
     </header>
   );
 }

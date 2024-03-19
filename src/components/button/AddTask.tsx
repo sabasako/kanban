@@ -8,7 +8,7 @@ export default function AddTask() {
   const diaologRef = useRef<HTMLDialogElement | null>(null);
 
   const [currentBoard] = useCurrentBoard();
-  const buttonIsDisabled = currentBoard?.columns.length === 0;
+  const buttonIsDisabled = !currentBoard || currentBoard?.columns.length === 0;
 
   function handleOpen() {
     if (currentBoard !== undefined) {
