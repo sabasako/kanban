@@ -53,7 +53,7 @@ export default function DarkThemeToggle({
             type="checkbox"
             checked={theme === "dark"}
             value="synthwave"
-            className="toggle theme-controller hover:bg-c-main-purple-hover bg-c-white border-c-main-purple [--tglbg:#635FC7]"
+            className="toggle theme-controller hover:opacity-65 transition duration-150 bg-c-white border-c-main-purple [--tglbg:#635FC7]"
           />
           <Dark />
         </label>
